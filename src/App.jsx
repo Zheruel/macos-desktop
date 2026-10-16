@@ -1,190 +1,3176 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Airplay, AppleLogo, AppStoreLogo, ArrowClockwise, ArrowElbowDownLeft, ArrowUp, ArrowsOutSimple, BatteryFull, Bluetooth, Broadcast, CaretLeft, CaretRight, Check, CheckCircle, Circle, CircleHalf, CirclesThree, ClockCounterClockwise, Cloud, Columns, Desktop, DotsThree, DownloadSimple, File, FolderOpen, FolderSimple, GearSix, Globe, GoogleLogo, HardDrives, Image, Laptop, List, LockSimple, MagnifyingGlass, Minus, Moon, MusicNotes, NotePencil, Pause, Play, Plus, Rectangle, ShareNetwork, ShieldCheck, SidebarSimple, SkipBack, SkipForward, SpeakerHigh, SpeakerSlash, SpotifyLogo, SquaresFour, Sun, Tag, ToggleRight, SlidersHorizontal, Users, WifiHigh, WifiSlash, X, YoutubeLogo } from '@phosphor-icons/react';
-const Icons = {Airplay, AppleLogo, AppStoreLogo, ArrowClockwise, ArrowElbowDownLeft, ArrowUp, ArrowsOutSimple, BatteryFull, Bluetooth, Broadcast, CaretLeft, CaretRight, Check, CheckCircle, Circle, CircleHalf, CirclesThree, ClockCounterClockwise, Cloud, Columns, Desktop, DotsThree, DownloadSimple, File, FolderOpen, FolderSimple, GearSix, Globe, GoogleLogo, HardDrives, Image, Laptop, List, LockSimple, MagnifyingGlass, Minus, Moon, MusicNotes, NotePencil, Pause, Play, Plus, Rectangle, ShareNetwork, ShieldCheck, SidebarSimple, SkipBack, SkipForward, SpeakerHigh, SpeakerSlash, SpotifyLogo, SquaresFour, Sun, Tag, ToggleRight, SlidersHorizontal, Users, WifiHigh, WifiSlash, X, YoutubeLogo};
-import './styles.css';
+import React, { useState, useEffect, useRef } from "react";
+import {
+  Airplay,
+  AppleLogo,
+  AppStoreLogo,
+  ArrowClockwise,
+  ArrowElbowDownLeft,
+  ArrowUp,
+  ArrowsOutSimple,
+  BatteryFull,
+  Bluetooth,
+  Broadcast,
+  CaretLeft,
+  CaretRight,
+  Check,
+  CheckCircle,
+  Circle,
+  CircleHalf,
+  CirclesThree,
+  ClockCounterClockwise,
+  Cloud,
+  Columns,
+  Desktop,
+  DotsThree,
+  DownloadSimple,
+  File,
+  FolderOpen,
+  FolderSimple,
+  GearSix,
+  Globe,
+  GoogleLogo,
+  HardDrives,
+  Image,
+  Laptop,
+  List,
+  LockSimple,
+  MagnifyingGlass,
+  Minus,
+  Moon,
+  MusicNotes,
+  NotePencil,
+  Pause,
+  Play,
+  Plus,
+  Rectangle,
+  ShareNetwork,
+  ShieldCheck,
+  SidebarSimple,
+  SkipBack,
+  SkipForward,
+  SpeakerHigh,
+  SpeakerSlash,
+  SpotifyLogo,
+  SquaresFour,
+  Sun,
+  Tag,
+  ToggleRight,
+  SlidersHorizontal,
+  Users,
+  WifiHigh,
+  WifiSlash,
+  X,
+  YoutubeLogo,
+} from "@phosphor-icons/react";
+const Icons = {
+  Airplay,
+  AppleLogo,
+  AppStoreLogo,
+  ArrowClockwise,
+  ArrowElbowDownLeft,
+  ArrowUp,
+  ArrowsOutSimple,
+  BatteryFull,
+  Bluetooth,
+  Broadcast,
+  CaretLeft,
+  CaretRight,
+  Check,
+  CheckCircle,
+  Circle,
+  CircleHalf,
+  CirclesThree,
+  ClockCounterClockwise,
+  Cloud,
+  Columns,
+  Desktop,
+  DotsThree,
+  DownloadSimple,
+  File,
+  FolderOpen,
+  FolderSimple,
+  GearSix,
+  Globe,
+  GoogleLogo,
+  HardDrives,
+  Image,
+  Laptop,
+  List,
+  LockSimple,
+  MagnifyingGlass,
+  Minus,
+  Moon,
+  MusicNotes,
+  NotePencil,
+  Pause,
+  Play,
+  Plus,
+  Rectangle,
+  ShareNetwork,
+  ShieldCheck,
+  SidebarSimple,
+  SkipBack,
+  SkipForward,
+  SpeakerHigh,
+  SpeakerSlash,
+  SpotifyLogo,
+  SquaresFour,
+  Sun,
+  Tag,
+  ToggleRight,
+  SlidersHorizontal,
+  Users,
+  WifiHigh,
+  WifiSlash,
+  X,
+  YoutubeLogo,
+};
+import "./styles.css";
+import {
+  SystemScreen,
+  PowerDialog,
+  QuickLook,
+  profiles,
+} from "./components/SystemScreens";
+import {
+  CalculatorApp,
+  TerminalApp,
+  WeatherApp,
+  ClockApp,
+  TipsApp,
+  AppBoundary,
+} from "./components/NativeApps";
+import {
+  MissionControl,
+  AppSwitcher,
+  DesktopWidgets,
+  WidgetGallery,
+  WelcomeBanner,
+  ForceQuitDialog,
+} from "./components/DesktopChrome";
 
 const asset = (name) => `${import.meta.env.BASE_URL}assets/icons/${name}.png`;
-function Icon({ name, size = 19, weight = 'regular', ...props }) { const Component = Icons[name] || Icons.Circle; return <Component size={size} weight={weight} {...props} />; }
+function Icon({ name, size = 19, weight = "regular", ...props }) {
+  const Component = Icons[name] || Icons.Circle;
+  return <Component size={size} weight={weight} {...props} />;
+}
 const apps = [
- ['finder','Finder'],['apps','Apps'],['safari','Safari'],['mail','Mail'],['messages','Messages'],['maps','Maps'],['photos','Photos'],['calendar','Calendar'],['notes','Notes'],['reminders','Reminders'],['music','Music'],['podcasts','Podcasts'],['tv','TV'],['appstore','App Store'],['settings','System Settings']
+  ["finder", "Finder"],
+  ["apps", "Apps"],
+  ["safari", "Safari"],
+  ["mail", "Mail"],
+  ["messages", "Messages"],
+  ["maps", "Maps"],
+  ["photos", "Photos"],
+  ["calendar", "Calendar"],
+  ["notes", "Notes"],
+  ["reminders", "Reminders"],
+  ["music", "Music"],
+  ["podcasts", "Podcasts"],
+  ["tv", "TV"],
+  ["appstore", "App Store"],
+  ["settings", "System Settings"],
 ];
+const extraApps = [
+  ["preview", "Preview"],
+  ["terminal", "Terminal"],
+  ["calculator", "Calculator"],
+  ["weather", "Weather"],
+  ["clock", "Clock"],
+  ["textedit", "TextEdit"],
+  ["tips", "Tips"],
+];
+const allApps = [...apps, ...extraApps];
+function preference(key, fallback) {
+  try {
+    return JSON.parse(localStorage.getItem(key)) ?? fallback;
+  } catch {
+    return fallback;
+  }
+}
 const initialFiles = [
- {name:'Golden Gate Park.jpg',photo:0,date:'Today, 16:20',kind:'JPEG image',size:'3.2 MB'},
- {name:'Project Files',folder:true,date:'Today, 14:03'},
- {name:'Coffee Shop.png',photo:1,date:'Today, 11:48',kind:'PNG image',size:'2.4 MB'},
- {name:'Design',folder:true,date:'Yesterday, 19:22'},
- {name:'SF Skyline.heic',photo:2,date:'Yesterday, 17:06',kind:'HEIF image',size:'4.1 MB'},
- {name:'Invoices',folder:true,date:'Oct 14, 2026'},
- {name:'Autumn Leaves.jpg',photo:3,date:'Oct 14, 2026',kind:'JPEG image',size:'2.8 MB'},
- {name:'Notes.txt',text:true,date:'Oct 13, 2026',kind:'Plain text',size:'2 KB'},
- {name:'Screenshots',folder:true,date:'Oct 12, 2026'},
- {name:'Ocean.jpg',photo:5,date:'Oct 12, 2026',kind:'JPEG image',size:'5.6 MB'},
- {name:'Mount Tamalpais.heic',photo:6,date:'Oct 11, 2026',kind:'HEIF image',size:'3.5 MB'},
- {name:'Work',folder:true,date:'Oct 10, 2026'},
- {name:'Flowers.jpg',photo:7,date:'Oct 10, 2026',kind:'JPEG image',size:'1.9 MB'},
- {name:'City Lights.heic',photo:8,date:'Oct 9, 2026',kind:'HEIF image',size:'4.7 MB'},
- {name:'Archives',folder:true,date:'Oct 9, 2026'}
+  {
+    name: "Golden Gate Park.jpg",
+    photo: 0,
+    date: "Today, 16:20",
+    kind: "JPEG image",
+    size: "3.2 MB",
+  },
+  { name: "Project Files", folder: true, date: "Today, 14:03" },
+  {
+    name: "Coffee Shop.png",
+    photo: 1,
+    date: "Today, 11:48",
+    kind: "PNG image",
+    size: "2.4 MB",
+  },
+  { name: "Design", folder: true, date: "Yesterday, 19:22" },
+  {
+    name: "SF Skyline.heic",
+    photo: 2,
+    date: "Yesterday, 17:06",
+    kind: "HEIF image",
+    size: "4.1 MB",
+  },
+  { name: "Invoices", folder: true, date: "Oct 14, 2026" },
+  {
+    name: "Autumn Leaves.jpg",
+    photo: 3,
+    date: "Oct 14, 2026",
+    kind: "JPEG image",
+    size: "2.8 MB",
+  },
+  {
+    name: "Notes.txt",
+    text: true,
+    date: "Oct 13, 2026",
+    kind: "Plain text",
+    size: "2 KB",
+  },
+  { name: "Screenshots", folder: true, date: "Oct 12, 2026" },
+  {
+    name: "Ocean.jpg",
+    photo: 5,
+    date: "Oct 12, 2026",
+    kind: "JPEG image",
+    size: "5.6 MB",
+  },
+  {
+    name: "Mount Tamalpais.heic",
+    photo: 6,
+    date: "Oct 11, 2026",
+    kind: "HEIF image",
+    size: "3.5 MB",
+  },
+  { name: "Work", folder: true, date: "Oct 10, 2026" },
+  {
+    name: "Flowers.jpg",
+    photo: 7,
+    date: "Oct 10, 2026",
+    kind: "JPEG image",
+    size: "1.9 MB",
+  },
+  {
+    name: "City Lights.heic",
+    photo: 8,
+    date: "Oct 9, 2026",
+    kind: "HEIF image",
+    size: "4.7 MB",
+  },
+  { name: "Archives", folder: true, date: "Oct 9, 2026" },
 ];
 const sidebarGroups = [
- ['', [['ClockCounterClockwise','Recents'],['AppStoreLogo','Applications'],['Desktop','Desktop'],['File','Documents'],['DownloadSimple','Downloads']]],
- ['iCloud',[['Cloud','iCloud Drive'],['Users','Shared']]],
- ['Locations',[['HardDrives','Macintosh HD'],['Globe','Network']]]
+  [
+    "",
+    [
+      ["ClockCounterClockwise", "Recents"],
+      ["AppStoreLogo", "Applications"],
+      ["Desktop", "Desktop"],
+      ["File", "Documents"],
+      ["DownloadSimple", "Downloads"],
+    ],
+  ],
+  [
+    "iCloud",
+    [
+      ["Cloud", "iCloud Drive"],
+      ["Users", "Shared"],
+    ],
+  ],
+  [
+    "Locations",
+    [
+      ["HardDrives", "Macintosh HD"],
+      ["Globe", "Network"],
+    ],
+  ],
 ];
-const tags = [['Red','#ff605c'],['Orange','#ffa329'],['Yellow','#ffd83d'],['Green','#69df5d'],['Blue','#41a6fc'],['Purple','#c775ed'],['Gray','#8e959c']];
-const clockFormat = () => new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
-const dateFormat = () => new Date().toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'}).replace(',','');
-const appName = id => apps.find(a=>a[0]===id)?.[1] || ({preview:'Preview',textedit:'TextEdit',about:'About This Mac',trash:'Trash'}[id]||id);
+const tags = [
+  ["Red", "#ff605c"],
+  ["Orange", "#ffa329"],
+  ["Yellow", "#ffd83d"],
+  ["Green", "#69df5d"],
+  ["Blue", "#41a6fc"],
+  ["Purple", "#c775ed"],
+  ["Gray", "#8e959c"],
+];
+const clockFormat = () =>
+  new Date().toLocaleTimeString("en-GB", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+const dateFormat = () =>
+  new Date()
+    .toLocaleDateString("en-US", {
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+    })
+    .replace(",", "");
+const appName = (id) =>
+  allApps.find((a) => a[0] === id)?.[1] ||
+  {
+    preview: "Preview",
+    textedit: "TextEdit",
+    about: "About This Mac",
+    trash: "Trash",
+    info: "Get Info",
+  }[id] ||
+  id;
 
 export function App() {
- const [windows,setWindows] = useState(() => [{id:'finder',x:innerWidth*.083,y:innerHeight*.145,w:Math.max(660,innerWidth*.638),h:Math.max(450,innerHeight*.634),z:2}]);
- const [active,setActive] = useState('finder');
- const [panel,setPanel] = useState('control');
- const [menu,setMenu] = useState(null);
- const [context,setContext] = useState(null);
- const [clock,setClock] = useState(clockFormat());
- const [spotlight,setSpotlight] = useState(false);
- const [query,setQuery] = useState('');
- const [selection,setSelection] = useState(null);
- const [location,setLocation] = useState('Recents');
- const [history,setHistory] = useState(['Recents']);
- const [fileView,setFileView] = useState('grid');
- const [fileSearch,setFileSearch] = useState('');
- const [showSearch,setShowSearch] = useState(false);
- const [files,setFiles] = useState(initialFiles);
- const [preview,setPreview] = useState(initialFiles[0]);
- const [light,setLight] = useState(false);
- const [wifi,setWifi] = useState(true);
- const [bluetooth,setBluetooth] = useState(true);
- const [focus,setFocus] = useState(false);
- const [airdrop,setAirdrop] = useState(true);
- const [brightness,setBrightness] = useState(48);
- const [volume,setVolume] = useState(48);
- const [playing,setPlaying] = useState(true);
- const [toast,setToast] = useState('');
- const [mission,setMission] = useState(false);
- const [launchpad,setLaunchpad] = useState(false);
- const [note,setNote] = useState('A little inspiration\n\nFinish the things that matter.\nMake room for a walk.\nTake a few more photographs.\n\n“Pay attention. Be astonished. Tell about it.”\n— Mary Oliver');
- const [browserUrl,setBrowserUrl] = useState('');
- const [browserPage,setBrowserPage] = useState('');
- const [settingTab,setSettingTab] = useState('Appearance');
-  const [calendarOffset,setCalendarOffset] = useState(0);
- const [message,setMessage] = useState('');
- const [sent,setSent] = useState([]);
- const [trash,setTrash] = useState([]);
- const [rename,setRename] = useState(false);
- const drag = useRef(null);
- const topZ=useRef(5);
- const toastTimer=useRef(null);
- const announce = text => {setToast(text);clearTimeout(toastTimer.current);toastTimer.current=setTimeout(()=>setToast(''),2500)};
- const focusWindow=id=>{setActive(id);setWindows(old=>old.map(w=>w.id===id?{...w,z:++topZ.current,minimized:false}:w))};
- const openApp=(id)=>{
-   setMenu(null);setContext(null);setPanel(null);setSpotlight(false);setLaunchpad(false);setQuery('');
-   if(id==='apps'){setLaunchpad(true);return}
-   if(windows.some(w=>w.id===id)){focusWindow(id);return}
-   const dimensions = id==='about'?[370,480]:id==='settings'?[820,590]:id==='preview'?[800,570]:id==='notes'?[800,550]:id==='music'?[850,540]:[900,570];
-   const w=Math.min(dimensions[0],innerWidth-50), h=Math.min(dimensions[1],innerHeight-145);
-   setWindows(old=>[...old,{id,x:Math.max(20,(innerWidth-w)/2+(old.length%3)*22),y:Math.max(42,(innerHeight-h)/2-25),w,h,z:++topZ.current}]);setActive(id);
- };
- const closeWindow=id=>{setWindows(old=>old.filter(w=>w.id!==id));setActive('finder')};
- const minimize=id=>{setWindows(old=>old.map(w=>w.id===id?{...w,minimized:true}:w));setActive('finder')};
- const maximize=id=>setWindows(old=>old.map(w=>w.id===id?w.maximized?{...w,...w.restore,maximized:false}:{...w,restore:{x:w.x,y:w.y,w:w.w,h:w.h},x:7,y:35,w:innerWidth-14,h:innerHeight-132,maximized:true}:w));
- const navigate=dest=>{setLocation(dest);setHistory(h=>[...h,dest]);setSelection(null);setFileSearch('')};
- const openFile=file=>{
-   if(file.folder){navigate(file.name);return}
-   if(file.app){openApp(file.app);return}
-   if(file.photo!==undefined){setPreview(file);openApp('preview');return}
-   openApp('textedit');
- };
- const newFolder=()=>{const name=files.some(f=>f.name==='untitled folder')?'untitled folder 2':'untitled folder';setFiles(f=>[...f,{name,folder:true,date:'Today'}]);setSelection(name);setMenu(null);announce('Folder created')};
- const trashSelection=()=>{const file=files.find(f=>f.name===selection);if(file){setTrash(t=>[...t,file]);setFiles(f=>f.filter(x=>x.name!==selection));setSelection(null);announce('Moved to Trash')}setMenu(null)};
- useEffect(()=>{const id=setInterval(()=>setClock(clockFormat()),10000);return()=>clearInterval(id)},[]);
- useEffect(()=>{
-  const move=e=>{if(!drag.current)return;const d=drag.current;setWindows(old=>old.map(w=>w.id===d.id?{...w,x:Math.max(-w.w+100,Math.min(innerWidth-100,d.x+e.clientX-d.mx)),y:Math.max(30,Math.min(innerHeight-110,d.y+e.clientY-d.my))}:w))};
-  const stop=()=>{drag.current=null;document.body.classList.remove('dragging')};
-  window.addEventListener('pointermove',move);window.addEventListener('pointerup',stop);return()=>{window.removeEventListener('pointermove',move);window.removeEventListener('pointerup',stop)}
- },[]);
- useEffect(()=>{
-  const key=e=>{
-   if(e.key==='Escape'){setSpotlight(false);setLaunchpad(false);setMission(false);setMenu(null);setPanel(null);setContext(null)}
-   if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'||(e.metaKey||e.ctrlKey)&&e.code==='Space'){e.preventDefault();setSpotlight(s=>!s);setPanel(null);setQuery('')}
-   if((e.metaKey||e.ctrlKey)&&e.key==='w'){e.preventDefault();closeWindow(active)}
-   if((e.metaKey||e.ctrlKey)&&e.key==='m'){e.preventDefault();minimize(active)}
-   if(e.key==='F3'){e.preventDefault();setMission(s=>!s)}
-   if((e.metaKey||e.ctrlKey)&&e.shiftKey&&e.key.toLowerCase()==='n'){e.preventDefault();newFolder()}
-   if(e.key==='Backspace'&&e.metaKey&&selection){e.preventDefault();trashSelection()}
-  };window.addEventListener('keydown',key);return()=>window.removeEventListener('keydown',key)
- },[active,selection,files]);
- const startDrag=(e,w)=>{if(e.target.closest('button,input'))return;e.preventDefault();drag.current={id:w.id,x:w.x,y:w.y,mx:e.clientX,my:e.clientY};document.body.classList.add('dragging');focusWindow(w.id)};
- const currentFiles = location==='Applications'?apps.map(([app,name])=>({app,name})):location==='Trash'?trash:location==='Downloads'?files.filter(f=>f.photo!==undefined||f.text):['Recents','Desktop','Documents','iCloud Drive','Macintosh HD','Shared','Network'].includes(location)||tags.some(t=>t[0]===location)?files:files.filter((f,i)=>i%3===0&&!f.folder);
- const filteredFiles=currentFiles.filter(f=>f.name.toLowerCase().includes(fileSearch.toLowerCase()));
- const togglePanel=p=>{setPanel(old=>old===p?null:p);setMenu(null);setContext(null)};
- const menuItems = label => ({
-  Apple:[['About This Mac',()=>openApp('about')],['System Settings…',()=>openApp('settings')],['App Store…',()=>openApp('appstore')],null,['Sleep',()=>announce('Your Mac is already wide awake')],['Restart…',()=>{setWindows([{id:'finder',x:innerWidth*.083,y:innerHeight*.145,w:innerWidth*.638,h:Math.max(450,innerHeight*.634),z:2}]);setPanel('control');setLocation('Recents');announce('Welcome back')}],['Shut Down…',()=>announce('This desktop stays right here')],null,['Lock Screen',()=>togglePanel('lock'),'⌃⌘Q']],
-  Finder:[['About Finder',()=>openApp('about')],['Settings…',()=>openApp('settings'),'⌘,'],null,['Hide Finder',()=>minimize('finder'),'⌘H']],
-  File:[['New Finder Window',()=>openApp('finder'),'⌘N'],['New Folder',newFolder,'⇧⌘N'],null,['Open',()=>{const f=files.find(f=>f.name===selection);if(f)openFile(f)},'⌘O'],['Rename',()=>setRename(true)],['Move to Trash',trashSelection,'⌘⌫'],null,['Close Window',()=>closeWindow(active),'⌘W']],
-  Edit:[['Undo',()=>announce('Nothing to undo'),'⌘Z'],['Copy',()=>announce(selection?'Copied '+selection:'Select a file to copy'),'⌘C'],['Select All',()=>announce('Use the file list to select an item'),'⌘A']],
-  View:[['as Icons',()=>setFileView('grid'),'⌘1'],['as List',()=>setFileView('list'),'⌘2'],['as Columns',()=>setFileView('columns'),'⌘3'],null,['Show Desktop',()=>{setWindows(w=>w.map(x=>({...x,minimized:true})));setPanel(null)}],['Show All Windows',()=>setMission(true),'F3']],
-  Go:[...['Recents','Applications','Desktop','Documents','Downloads','iCloud Drive','Macintosh HD'].map(name=>[name,()=>{navigate(name);openApp('finder')}])],
-  Window:[['Minimize',()=>minimize(active),'⌘M'],['Zoom',()=>maximize(active)],null,...windows.map(w=>[appName(w.id),()=>focusWindow(w.id)])],
-  Help:[['Search with Spotlight',()=>{setSpotlight(true);setQuery('')},'⌘K'],['Keyboard Shortcuts',()=>announce('⌘K Spotlight · ⌘W Close · ⌘M Minimize · F3 All windows')]]
- }[label] || [['About '+appName(active),()=>openApp('about')],['Close Window',()=>closeWindow(active),'⌘W']]);
- const Traffic=({w})=><div className="traffic"><button className="red" aria-label={`Close ${appName(w.id)}`} onClick={()=>closeWindow(w.id)}><Icon name="X" size={9} weight="bold"/></button><button className="yellow" aria-label={`Minimize ${appName(w.id)}`} onClick={()=>minimize(w.id)}><Icon name="Minus" size={9} weight="bold"/></button><button className="green" aria-label={`Maximize ${appName(w.id)}`} onClick={()=>maximize(w.id)}><Icon name="ArrowsOutSimple" size={8} weight="bold"/></button></div>;
- const FileIcon=({file})=>file.photo!==undefined?<img className="file-photo" src={`${import.meta.env.BASE_URL}assets/photos/${file.photo}.jpg`} alt=""/>:<img className={`file-art ${file.folder?'folder-art':''}`} src={asset(file.app|| (file.folder?'folder':'document'))} alt=""/>;
- function Finder({w}){return <>
-   <aside className="finder-sidebar"><div className="sidebar-top" onPointerDown={e=>startDrag(e,w)}><Traffic w={w}/></div><div className="sidebar-scroll">{sidebarGroups.map(([title,items])=><section key={title}>{title&&<div className="sidebar-heading">{title}</div>}{items.map(([icon,name])=><button key={name} className={`sidebar-row ${location===name?'selected':''}`} onClick={()=>navigate(name)}><Icon name={icon} size={18}/><span>{name}</span></button>)}</section>)}<section className="tags"><div className="sidebar-heading">Tags</div>{tags.map(([name,color])=><button className={`sidebar-row ${location===name?'selected':''}`} key={name} onClick={()=>navigate(name)}><Icon name="Circle" weight="fill" size={14} color={color}/>{name}</button>)}<button className="sidebar-row" onClick={()=>announce('Choose a color to browse tagged files')}><Icon name="CirclesThree" size={17}/>All Tags…</button></section></div></aside>
-   <div className="finder-main"><header className="finder-toolbar" onPointerDown={e=>startDrag(e,w)} onDoubleClick={()=>maximize(w.id)}><div className="capsule back-buttons"><button aria-label="Back" disabled={history.length<2} onClick={()=>{const h=history.slice(0,-1);setHistory(h);setLocation(h.at(-1)||'Recents')}}><Icon name="CaretLeft"/></button><button aria-label="Forward" onClick={()=>navigate('Recents')}><Icon name="CaretRight"/></button></div><strong>{location}</strong><div className="toolbar-right"><div className="capsule view-buttons">{[['SquaresFour','grid'],['List','list'],['Columns','columns']].map(([icon,type])=><button aria-label={`${type} view`} className={fileView===type?'chosen':''} key={type} onClick={()=>setFileView(type)}><Icon name={icon} size={19}/></button>)}</div><button className="capsule tool-button share" aria-label="Share selected file" onClick={()=>announce(selection?'Ready to share '+selection:'Select a file to share')}><Icon name="ShareNetwork"/></button><button className="capsule tool-button tag" aria-label="Tags" onClick={()=>announce('Choose a tag in the sidebar')}><Icon name="Tag"/></button><button className="capsule tool-button" aria-label="Finder actions" onClick={e=>{e.stopPropagation();setMenu(menu==='File'?null:'File')}}><Icon name="DotsThree" size={22}/></button><button className="capsule tool-button" aria-label="Search Finder" onClick={()=>setShowSearch(!showSearch)}><Icon name="MagnifyingGlass"/></button></div></header>
-   {showSearch&&<div className="finder-search"><Icon name="MagnifyingGlass" size={16}/><input autoFocus aria-label="Search files" placeholder="Search" value={fileSearch} onChange={e=>setFileSearch(e.target.value)}/><button aria-label="Close search" onClick={()=>{setShowSearch(false);setFileSearch('')}}><Icon name="X" size={15}/></button></div>}
-   <div className={`file-area ${fileView}`} onClick={e=>{if(e.target===e.currentTarget)setSelection(null)}} onContextMenu={e=>{e.preventDefault();setContext({x:e.clientX,y:e.clientY,type:'finder'})}}>
-    {fileView!=='grid'&&<div className="list-heading"><span>Name</span><span>Date Modified</span><span>Size</span></div>}
-    {filteredFiles.map((file,i)=><button key={file.name} className={`file-item ${selection===file.name?'selected':''}`} onClick={()=>setSelection(file.name)} onDoubleClick={()=>openFile(file)} onKeyDown={e=>{if(e.key==='Enter')openFile(file)}} onContextMenu={e=>{e.preventDefault();e.stopPropagation();setSelection(file.name);setContext({x:e.clientX,y:e.clientY,type:'file',file})}}><FileIcon file={file}/><span className="file-name">{file.name}</span><span className="file-date">{file.date||'Application'}</span>{fileView!=='grid'&&<span className="file-size">{file.size||'—'}</span>}</button>)}
-    {!filteredFiles.length&&<div className="empty-folder"><Icon name="FolderOpen" size={56} weight="thin"/><span>{fileSearch?'No matching files':'This folder is empty'}</span></div>}
-   </div><footer className="finder-status">{filteredFiles.length} items{selection?' · 1 selected':''}<span>128.4 GB available</span></footer></div>
- </>}
- function ControlCenter(){return <div className="control-center glass popover" onClick={e=>e.stopPropagation()}>
-  <div className="control-top"><div className="connectivity control-tile">{[['WifiHigh','Wi-Fi',wifi,setWifi,wifi?'HomeNet':'Off'],['Bluetooth','Bluetooth',bluetooth,setBluetooth,bluetooth?'On':'Off'],['Broadcast','AirDrop',airdrop,setAirdrop,airdrop?'Contacts Only':'Off']].map(([icon,label,on,set,sub])=><button className="connectivity-row" key={label} onClick={()=>set(!on)}><span className={`round-icon ${on?'blue':''}`}><Icon name={icon} size={21}/></span><span><b>{label}</b><small>{sub}</small></span></button>)}</div><div className="control-other"><button className={`focus-tile control-tile ${focus?'enabled':''}`} onClick={()=>setFocus(!focus)}><span className="round-icon"><Icon name="Moon" weight="fill" size={23}/></span><span><b>Focus</b><small>{focus?'Do Not Disturb':'Off'}</small></span><Icon name="CaretRight" size={13}/></button><div className="control-two"><button className="control-tile" onClick={()=>{setMission(!mission);setPanel(null)}}><Icon name="SidebarSimple" size={26}/><span>Stage<br/>Manager</span></button><button className="control-tile" onClick={()=>announce('No displays available')}><Icon name="Rectangle" size={26}/><span>Screen<br/>Mirroring</span></button></div></div></div>
-  <div className="slider-tile control-tile"><Icon name="Sun" size={25}/><input type="range" aria-label="Display brightness" min="0" max="100" value={brightness} onChange={e=>setBrightness(+e.target.value)} style={{'--value':brightness+'%'}}/></div>
-  <div className="volume-row"><div className="slider-tile control-tile"><Icon name={volume?'SpeakerHigh':'SpeakerSlash'} size={24}/><input type="range" aria-label="Sound volume" value={volume} onChange={e=>setVolume(+e.target.value)} style={{'--value':volume+'%'}}/></div><button className="sound-output control-tile" aria-label="Sound output" onClick={()=>announce('Sound output: MacBook Pro speakers')}><Icon name="Airplay" size={24}/></button></div>
-  <div className="media-tile control-tile"><img src={`${import.meta.env.BASE_URL}assets/photos/8.jpg`} alt="Midnight City album artwork"/><div className="media-copy"><b>Midnight City</b><small>M83</small></div><button aria-label="Previous track" onClick={()=>announce('Midnight City · M83')}><Icon name="SkipBack" weight="fill" size={20}/></button><button aria-label={playing?'Pause music':'Play music'} onClick={()=>setPlaying(!playing)}><Icon name={playing?'Pause':'Play'} weight="fill" size={22}/></button><button aria-label="Next track" onClick={()=>announce('Next up: Wait · M83')}><Icon name="SkipForward" weight="fill" size={20}/></button></div>
- </div>}
- function CalendarContent(){const now=new Date();const date=new Date(now.getFullYear(),now.getMonth()+calendarOffset,1);const count=new Date(date.getFullYear(),date.getMonth()+1,0).getDate();const offset=(date.getDay()+6)%7;return <div className="calendar-content"><header><h2>{date.toLocaleDateString('en-US',{month:'long',year:'numeric'})}</h2><button aria-label="Previous month" onClick={()=>setCalendarOffset(x=>x-1)}><Icon name="CaretLeft"/></button><button onClick={()=>setCalendarOffset(0)}>Today</button><button aria-label="Next month" onClick={()=>setCalendarOffset(x=>x+1)}><Icon name="CaretRight"/></button></header><div className="calendar-grid">{['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map(d=><span className="weekday" key={d}>{d}</span>)}{Array.from({length:offset},(_,i)=><span key={'blank'+i}/>)}{Array.from({length:count},(_,i)=><button key={i} className={i+1===now.getDate()&&calendarOffset===0?'today':''} onClick={()=>announce(`No events on ${date.toLocaleDateString('en-US',{month:'long'})} ${i+1}`)}>{i+1}</button>)}</div></div>}
- function Safari(){return <div className="safari-content"><form className="safari-address" onSubmit={e=>{e.preventDefault();setBrowserPage(browserUrl)}}><Icon name="LockSimple" size={14}/><input aria-label="Safari address" placeholder="Search or enter website name" value={browserUrl} onChange={e=>setBrowserUrl(e.target.value)}/><button aria-label="Reload page"><Icon name="ArrowClockwise" size={16}/></button></form>{browserPage?<div className="browser-mock-page"><Icon name="Globe" size={60} weight="thin"/><h1>{browserPage.replace('https://','').split('/')[0]}</h1><p>You're exploring a little corner of the web.</p><button className="native-button" onClick={()=>{setBrowserPage('');setBrowserUrl('')}}>Back to Start Page</button></div>:<div className="safari-start"><h2>Favorites</h2><div className="favorite-grid">{[['Apple','AppleLogo'],['iCloud','Cloud'],['Google','GoogleLogo'],['YouTube','YoutubeLogo'],['Wikipedia','Globe'],['Spotify','SpotifyLogo']].map(([name,icon])=><button key={name} onClick={()=>{setBrowserUrl(name.toLowerCase()+'.com');setBrowserPage(name.toLowerCase()+'.com')}}><span><Icon name={icon} weight="fill" size={34}/></span>{name}</button>)}</div><h2>Reading List</h2><div className="reading-grid">{[[6,'A guide to California’s best hikes','outsideonline.com'],[1,'The art of slowing down','kinfolk.com']].map(([i,title,url])=><button onClick={()=>{setBrowserUrl(url);setBrowserPage(url)}} key={i}><img src={`${import.meta.env.BASE_URL}assets/photos/${i}.jpg`} alt=""/><span>{title}<small>{url}</small></span></button>)}</div><p className="privacy-message"><Icon name="ShieldCheck" size={18}/>Your privacy. Protected.</p></div>}</div>}
- function Settings(){return <div className="settings-content"><aside><div className="profile"><span>T</span><div><b>Tin</b><small>Apple Account</small></div></div>{['Wi-Fi','Bluetooth','General','Appearance','Desktop & Dock','Wallpaper','Sound'].map((s,i)=><button className={settingTab===s?'selected':''} key={s} onClick={()=>setSettingTab(s)}><Icon name={['WifiHigh','Bluetooth','GearSix','CircleHalf','Desktop','Image','SpeakerHigh'][i]}/>{s}<Icon name="CaretRight" size={13}/></button>)}</aside><article><h2>{settingTab}</h2>{settingTab==='Appearance'||settingTab==='Wallpaper'||settingTab==='Desktop & Dock'?<><div className="appearance-choices">{[[false,'Dark'],[true,'Light']].map(([isLight,name])=><button className={light===isLight?'chosen':''} key={name} onClick={()=>setLight(isLight)}><img src={`${import.meta.env.BASE_URL}assets/wallpaper-${isLight?'light':'dark'}.png`} alt={`${name} appearance`}/><span>{name}{light===isLight&&<Icon name="CheckCircle" weight="fill" size={17}/>}</span></button>)}</div><div className="settings-group"><label>Appearance<span>{light?'Light':'Dark'}</span></label><label>Accent color<span className="accent-swatches">{['#0a84ff','#b26aea','#f15b9b','#f24646','#ff9f0a','#ffd60a','#30d158'].map(color=><button key={color} style={{background:color}} aria-label={`Accent ${color}`} onClick={()=>{document.documentElement.style.setProperty('--accent',color);announce('Accent color updated')}}/>)}</span></label><label>Liquid Glass<span>Clear</span></label><label>Allow wallpaper tinting in windows<input type="checkbox" defaultChecked/></label></div></>:settingTab==='Wi-Fi'||settingTab==='Bluetooth'?<div className="settings-group"><label>{settingTab}<input aria-label={settingTab} type="checkbox" checked={settingTab==='Wi-Fi'?wifi:bluetooth} onChange={e=>settingTab==='Wi-Fi'?setWifi(e.target.checked):setBluetooth(e.target.checked)}/></label><label>{settingTab==='Wi-Fi'?'HomeNet':'Magic Keyboard'}<span>Connected</span></label></div>:settingTab==='Sound'?<div className="settings-group"><label>Output volume<input aria-label="Output volume" type="range" value={volume} onChange={e=>setVolume(+e.target.value)}/></label></div>:<div className="about-settings"><img src={asset('settings')} alt=""/><h2>macOS Golden Gate</h2><p>Version 27.0.1</p><div className="settings-group"><label>Chip<span>Apple M4 Pro</span></label><label>Memory<span>24 GB</span></label><label>Startup disk<span>Macintosh HD</span></label></div></div>}</article></div>}
- function WindowContent({w}) {
-  if(w.id==='finder')return Finder({w});
-  return <><header className="app-toolbar" onPointerDown={e=>startDrag(e,w)} onDoubleClick={()=>maximize(w.id)}><Traffic w={w}/><strong>{w.id==='preview'?preview.name:appName(w.id)}</strong><div className="app-toolbar-actions">{w.id==='notes'&&<button aria-label="New note" onClick={()=>setNote('Untitled\n\n')}><Icon name="NotePencil"/></button>}{w.id==='preview'&&<button aria-label="Previous photo" onClick={()=>{const photos=initialFiles.filter(f=>f.photo!==undefined);setPreview(photos[(photos.findIndex(f=>f.name===preview.name)+photos.length-1)%photos.length])}}><Icon name="CaretLeft"/></button>}{w.id==='preview'&&<button aria-label="Next photo" onClick={()=>{const photos=initialFiles.filter(f=>f.photo!==undefined);setPreview(photos[(photos.findIndex(f=>f.name===preview.name)+1)%photos.length])}}><Icon name="CaretRight"/></button>}</div></header>
-  {w.id==='preview'?<div className="preview-content"><img src={`${import.meta.env.BASE_URL}assets/photos/${preview.photo}.jpg`} alt={preview.name}/></div>:
-   w.id==='safari'?Safari():
-   w.id==='settings'?Settings():
-   w.id==='notes'?<div className="notes-content"><aside><h3>iCloud</h3><button className="selected"><Icon name="FolderSimple"/>All iCloud <small>3</small></button><button onClick={()=>setNote('Ideas\n\nA place for the next great idea.')}><Icon name="FolderSimple"/>Ideas <small>1</small></button><button onClick={()=>setNote('Weekend\n\nA walk by the water.\nCoffee with friends.')}><Icon name="FolderSimple"/>Personal <small>1</small></button></aside><div className="note-paper"><small>October 16, 2026 at {clock}</small><textarea aria-label="Note text" value={note} onChange={e=>setNote(e.target.value)} spellCheck={false}/></div></div>:
-   w.id==='textedit'?<textarea className="text-document" aria-label="Text document" defaultValue={'A few things to remember\n\nMake something beautiful.\nEnjoy the process.\nSave a little time to explore.\n\nOctober 16, 2026'}/>:
-   w.id==='calendar'?CalendarContent():
-   w.id==='photos'?<div className="photos-content"><header><h1>Library</h1><span>9 Photos</span></header><div className="photo-library">{Array.from({length:9},(_,i)=><button key={i} onClick={()=>{setPreview({name:['Golden Gate Park','Coffee Shop','SF Skyline','Autumn','Leaves','Ocean','Mount Tamalpais','Flowers','City Lights'][i]+'.jpg',photo:i});openApp('preview')}}><img src={`${import.meta.env.BASE_URL}assets/photos/${i}.jpg`} alt={`Photo ${i+1}`}/></button>)}</div></div>:
-   w.id==='music'||w.id==='podcasts'||w.id==='tv'?<div className="music-content"><aside><h3>Library</h3>{['Recently Added','Artists','Albums','Songs'].map(x=><button key={x} onClick={()=>announce(x+' selected')}><Icon name="MusicNotes"/>{x}</button>)}</aside><article><img className="album" src={`${import.meta.env.BASE_URL}assets/photos/8.jpg`} alt="Midnight City"/><div><small>SONG</small><h1>Midnight City</h1><h3>M83</h3><p>Hurry Up, We’re Dreaming · 2011</p><button className="play-button" onClick={()=>setPlaying(!playing)}><Icon name={playing?'Pause':'Play'} weight="fill"/>{playing?'Pause':'Play'}</button></div></article><div className="music-player"><Icon name="MusicNotes"/><span>Midnight City — M83</span><button onClick={()=>setPlaying(!playing)} aria-label={playing?'Pause':'Play'}><Icon name={playing?'Pause':'Play'} weight="fill"/></button><input aria-label="Track progress" type="range" defaultValue="28"/></div></div>:
-   w.id==='about'?<div className="about-mac"><Icon name="Laptop" size={105} weight="thin"/><h1>MacBook Pro</h1><p>14-inch, 2026</p><dl><dt>Chip</dt><dd>Apple M4 Pro</dd><dt>Memory</dt><dd>24 GB</dd><dt>macOS</dt><dd>Golden Gate 27.0.1</dd></dl><button className="native-button" onClick={()=>openApp('settings')}>More Info…</button><small>macOS in your browser</small></div>:
-   w.id==='messages'||w.id==='mail'?<div className="messages-content"><aside><h2>{appName(w.id)}</h2>{['Alex Morgan','Jamie Chen','Sam Taylor'].map((name,i)=><button key={name} onClick={()=>announce(name+' selected')}><span className="avatar">{name.split(' ').map(n=>n[0]).join('')}</span><span><b>{name}</b><small>{['Hey! Ready for the weekend?','That looks great, thank you!','See you soon.'][i]}</small></span></button>)}</aside><article><header>Alex Morgan</header><div className="conversation"><span className="bubble incoming">Hey! Ready for the weekend?</span><span className="bubble outgoing">Absolutely. Let’s get outside.</span><span className="bubble incoming">Coffee and a walk?</span>{sent.map((s,i)=><span key={i} className="bubble outgoing">{s}</span>)}</div><form onSubmit={e=>{e.preventDefault();if(message.trim()){setSent(s=>[...s,message]);setMessage('')}}}><input aria-label="Message" placeholder="iMessage" value={message} onChange={e=>setMessage(e.target.value)}/><button aria-label="Send mock message"><Icon name="ArrowUp" weight="bold"/></button></form></article></div>:
-   w.id==='trash'?<div className="trash-content">{trash.length?trash.map(f=><button key={f.name} onDoubleClick={()=>{setFiles(x=>[...x,f]);setTrash(x=>x.filter(t=>t.name!==f.name));announce('Restored '+f.name)}}><FileIcon file={f}/><span>{f.name}</span><small>Double-click to put back</small></button>):<><img src={asset('trash')} alt=""/><h2>Trash is empty</h2><p>Items you remove will appear here.</p></>}</div>:
-   w.id==='reminders'?<div className="reminders-content"><h1>Today</h1>{['Take a walk','Make something beautiful','Call a friend','Plan the weekend'].map(t=><label key={t}><input type="checkbox"/>{t}</label>)}<button onClick={()=>announce('All caught up for today')}><Icon name="Plus"/>New Reminder</button></div>:
-   w.id==='maps'?<div className="map-content"><img src={`${import.meta.env.BASE_URL}assets/photos/0.jpg`} alt="Golden Gate Park"/><div className="map-place glass"><h2>Golden Gate Park</h2><p>San Francisco, California</p><button className="native-button" onClick={()=>announce('You have arrived. Enjoy the view.')}>Explore</button></div></div>:
-   <div className="appstore-content"><img src={asset('appstore')} alt=""/><h1>Discover something wonderful.</h1><p>Your next favorite app is waiting.</p><div>{apps.slice(2,7).map(([id,name])=><button key={id} onClick={()=>openApp(id)}><img src={asset(id)} alt=""/>{name}<span>Open</span></button>)}</div></div>}
-  </>
- }
- return <main className={`desktop ${light?'light':''} ${mission?'mission-mode':''}`} style={{'--brightness':brightness/100}} onClick={e=>{setMenu(null);setContext(null);if(!e.target.closest('.menu-bar,.popover,.status-popover,.notification-center,.lock-screen'))setPanel(null)}} onContextMenu={e=>{if(e.target===e.currentTarget){e.preventDefault();setContext({x:e.clientX,y:e.clientY,type:'desktop'})}}}>
-  <div className="wallpaper"/><div className="screen-dim" style={{opacity:Math.max(0,(48-brightness)/80)}}/>
-  <nav className="menu-bar" aria-label="Menu bar"><div className="menu-left">{['Apple',active==='finder'?'Finder':appName(active),'File','Edit','View',...(active==='finder'?['Go']:[]),'Window','Help'].map((label,i)=><button key={i} className={`${menu===label?'open':''} ${i===1?'app-menu':''}`} aria-label={label==='Apple'?'Apple menu':label+' menu'} onMouseEnter={()=>{if(menu)setMenu(label)}} onClick={e=>{e.stopPropagation();setMenu(menu===label?null:label);setPanel(null)}}>{label==='Apple'?<Icon name="AppleLogo" weight="fill" size={19}/>:label}</button>)}</div><div className="menu-right">{focus&&<Icon name="Moon" weight="fill" size={15}/>}<button aria-label="Wi-Fi status" onClick={()=>togglePanel('wifi')}><Icon name={wifi?'WifiHigh':'WifiSlash'} size={20}/></button><button className="menu-battery" aria-label="Battery 100 percent" onClick={()=>togglePanel('battery')}><Icon name="BatteryFull" size={24}/></button><button aria-label="Spotlight" onClick={()=>{setSpotlight(true);setQuery('');setPanel(null)}}><Icon name="MagnifyingGlass" size={19}/></button><button aria-label="Control Center" className={panel==='control'?'open':''} onClick={()=>togglePanel('control')}><Icon name="SlidersHorizontal" size={22}/></button><button className="menu-date" aria-label="Date and notifications" onClick={()=>togglePanel('notifications')}>{dateFormat()} <span>{clock}</span></button></div></nav>
-  {menu&&<div className="menu-dropdown glass" style={{left:menu==='Apple'?9:menu==='File'?145:menu==='Edit'?188:menu==='View'?231:menu==='Go'?277:menu==='Window'?310:menu==='Help'?385:48}} onClick={e=>e.stopPropagation()}>{menuItems(menu).map((item,i)=>item?<button key={i} onClick={()=>{setMenu(null);item[1]()}}><span>{item[0]}</span><small>{item[2]}</small></button>:<hr key={i}/>)}</div>}
-  <div className="desktop-files">{['Projects','Reference'].map(name=><button className={selection===name?'selected':''} key={name} onClick={()=>setSelection(name)} onDoubleClick={()=>{navigate(name);openApp('finder')}}><img src={asset('folder')} alt=""/><span>{name}</span></button>)}</div>
-  {windows.filter(w=>!w.minimized).map(w=><section key={w.id} className={`os-window ${w.id==='finder'?'finder-window':''} ${w.id==='about'?'about-window':''} ${active===w.id?'active':'inactive'}`} aria-label={`${appName(w.id)} window`} style={{left:w.x,top:w.y,width:w.w,height:w.h,zIndex:w.z}} onPointerDown={()=>{setPanel(null);if(active!==w.id)focusWindow(w.id)}} onClick={e=>e.stopPropagation()}>{WindowContent({w})}<div className="resize-handle" onPointerDown={e=>{e.preventDefault();e.stopPropagation();const sx=e.clientX,sy=e.clientY,sw=w.w,sh=w.h;const move=ev=>setWindows(old=>old.map(x=>x.id===w.id?{...x,w:Math.max(370,sw+ev.clientX-sx),h:Math.max(260,sh+ev.clientY-sy)}:x));const stop=()=>{window.removeEventListener('pointermove',move);window.removeEventListener('pointerup',stop)};window.addEventListener('pointermove',move);window.addEventListener('pointerup',stop)}}/></section>)}
-  {mission&&<div className="mission-label glass">Desktop 1<button aria-label="Close Mission Control" onClick={()=>setMission(false)}><Icon name="X" size={14}/></button></div>}
-  {panel==='control'&&ControlCenter()}
-  {panel==='wifi'&&<div className="status-popover glass"><header><b>Wi-Fi</b><input aria-label="Wi-Fi enabled" type="checkbox" checked={wifi} onChange={e=>setWifi(e.target.checked)}/></header><hr/><small>Known Network</small><button onClick={()=>setWifi(!wifi)}><span className="round-icon blue"><Icon name="WifiHigh"/></span><span>HomeNet<small>{wifi?'Connected':'Not connected'}</small></span>{wifi&&<Icon name="Check"/>}</button><button className="popover-settings" onClick={()=>{setSettingTab('Wi-Fi');openApp('settings');setPanel(null)}}>Wi-Fi Settings…</button></div>}
-  {panel==='battery'&&<div className="status-popover glass"><header><b>Battery</b><span>100%</span></header><p>Power Source: Power Adapter</p><small>Battery is fully charged</small><button className="popover-settings" onClick={()=>{openApp('settings');setPanel(null)}}>Battery Settings…</button></div>}
-  {panel==='notifications'&&<div className="notification-center glass"><div className="notification-date">{new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'})}</div><div className="notification-weather"><div><b>San Francisco</b><strong>18°</strong><small>Clear · H:21° L:14°</small></div><Icon name="Sun" weight="fill" size={59} color="#ffd660"/></div>{CalendarContent()}<p>No new notifications</p></div>}
-  {panel==='lock'&&<div className="lock-screen" onClick={()=>setPanel(null)}><h2>{dateFormat()}</h2><h1>{clock}</h1><div className="lock-user">T</div><h3>Tin</h3><p>Click anywhere to unlock</p></div>}
-  <div className="dock-wrap"><div className="dock glass" aria-label="Dock">{apps.map(([id,label])=><button key={id} aria-label={label} className={`dock-item ${windows.some(w=>w.id===id)?'running':''}`} onClick={()=>openApp(id)}><span className="dock-tooltip glass">{label}</span><img src={asset(id)} alt="" draggable="false"/></button>)}<span className="dock-divider"/><button className="dock-item" aria-label="Trash" onClick={()=>openApp('trash')}><span className="dock-tooltip glass">Trash</span><img src={asset('trash')} alt=""/></button></div></div>
-  {spotlight&&<div className="spotlight-backdrop" onClick={()=>setSpotlight(false)}><div className="spotlight glass" onClick={e=>e.stopPropagation()}><div className="spotlight-input"><Icon name="MagnifyingGlass" size={28}/><input autoFocus aria-label="Spotlight search" placeholder="Spotlight Search" value={query} onChange={e=>setQuery(e.target.value)} onKeyDown={e=>{if(e.key==='Enter'){const a=apps.find(([id,name])=>name.toLowerCase().includes(query.toLowerCase()));if(a)openApp(a[0]);else{const f=files.find(f=>f.name.toLowerCase().includes(query.toLowerCase()));if(f){openFile(f);setSpotlight(false)}}}}}/><span>esc</span></div>{query&&<div className="spotlight-results"><small>Applications</small>{apps.filter(([id,name])=>name.toLowerCase().includes(query.toLowerCase())).slice(0,5).map(([id,name])=><button key={id} onClick={()=>openApp(id)}><img src={asset(id)} alt=""/><span>{name}</span><Icon name="ArrowElbowDownLeft" size={16}/></button>)}{files.filter(f=>f.name.toLowerCase().includes(query.toLowerCase())).slice(0,4).map(f=><button key={f.name} onClick={()=>{openFile(f);setSpotlight(false)}}><FileIcon file={f}/><span>{f.name}</span></button>)}</div>}<footer><span>Search your Mac</span><span>Open <Icon name="ArrowElbowDownLeft" size={12}/></span></footer></div></div>}
-  {launchpad&&<div className="launchpad" onClick={()=>setLaunchpad(false)}><input autoFocus aria-label="Search applications" placeholder="Search applications" value={query} onClick={e=>e.stopPropagation()} onChange={e=>setQuery(e.target.value)}/><div className="launchpad-grid">{apps.filter(([id,name])=>id!=='apps'&&name.toLowerCase().includes(query.toLowerCase())).map(([id,name])=><button key={id} onClick={e=>{e.stopPropagation();openApp(id)}}><img src={asset(id)} alt=""/>{name}</button>)}</div><button className="launchpad-close" onClick={()=>setLaunchpad(false)}>Return to Desktop</button></div>}
-  {context&&<div className="context-menu glass" style={{left:Math.min(context.x,innerWidth-230),top:Math.min(context.y,innerHeight-260)}} onClick={e=>e.stopPropagation()}>{context.type==='file'?<><button onClick={()=>{openFile(context.file);setContext(null)}}>Open</button><button onClick={()=>{setRename(true);setContext(null)}}>Rename…</button><button onClick={()=>{trashSelection();setContext(null)}}>Move to Trash</button><hr/><button onClick={()=>{announce(`${context.file.name} · ${context.file.size||'Folder'}`);setContext(null)}}>Get Info</button></>:<><button onClick={()=>{newFolder();setContext(null)}}>New Folder</button><hr/><button onClick={()=>{setContext(null);setSettingTab('Wallpaper');openApp('settings')}}>Change Wallpaper…</button><button onClick={()=>{setLight(!light);setContext(null)}}>Use {light?'Dark':'Light'} Appearance</button><hr/><button onClick={()=>{setContext(null);setMission(true)}}>Show All Windows</button></>}</div>}
-  {rename&&<div className="dialog-backdrop"><form className="rename-dialog glass" onSubmit={e=>{e.preventDefault();const name=new FormData(e.currentTarget).get('name');setFiles(old=>old.map(f=>f.name===selection?{...f,name}:f));setSelection(name);setRename(false)}}><h3>Rename</h3><input aria-label="File name" name="name" autoFocus defaultValue={selection||''}/><div><button className="native-button" type="button" onClick={()=>setRename(false)}>Cancel</button><button className="native-button primary">Rename</button></div></form></div>}
-  {toast&&<div className="toast glass" role="status"><Icon name="CheckCircle" size={18}/>{toast}</div>}
- </main>
+  const [windows, setWindows] = useState(() => [
+    {
+      id: "finder",
+      x: innerWidth * 0.083,
+      y: innerHeight * 0.145,
+      w: Math.max(660, innerWidth * 0.638),
+      h: Math.max(450, innerHeight * 0.634),
+      z: 2,
+    },
+  ]);
+  const [active, setActive] = useState("finder");
+  const [panel, setPanel] = useState(null);
+  const [menu, setMenu] = useState(null);
+  const [context, setContext] = useState(null);
+  const [clock, setClock] = useState(clockFormat());
+  const [spotlight, setSpotlight] = useState(false);
+  const [query, setQuery] = useState("");
+  const [selection, setSelection] = useState(null);
+  const [location, setLocation] = useState("Recents");
+  const [history, setHistory] = useState(["Recents"]);
+  const [fileView, setFileView] = useState("grid");
+  const [fileSearch, setFileSearch] = useState("");
+  const [showSearch, setShowSearch] = useState(false);
+  const [files, setFiles] = useState(initialFiles);
+  const [preview, setPreview] = useState(initialFiles[0]);
+  const [light, setLight] = useState(() =>
+    preference("macos-demo-light", false),
+  );
+  const [wifi, setWifi] = useState(true);
+  const [bluetooth, setBluetooth] = useState(true);
+  const [focus, setFocus] = useState(false);
+  const [airdrop, setAirdrop] = useState(true);
+  const [brightness, setBrightness] = useState(48);
+  const [volume, setVolume] = useState(48);
+  const [playing, setPlaying] = useState(true);
+  const [toast, setToast] = useState("");
+  const [mission, setMission] = useState(false);
+  const [launchpad, setLaunchpad] = useState(false);
+  const [note, setNote] = useState(() =>
+    preference(
+      "macos-demo-note",
+      "A little inspiration\n\nFinish the things that matter.\nMake room for a walk.\nTake a few more photographs.\n\n“Pay attention. Be astonished. Tell about it.”\n— Mary Oliver",
+    ),
+  );
+  const [browserUrl, setBrowserUrl] = useState("");
+  const [browserPage, setBrowserPage] = useState("");
+  const [settingTab, setSettingTab] = useState("Appearance");
+  const [calendarOffset, setCalendarOffset] = useState(0);
+  const [message, setMessage] = useState("");
+  const [sent, setSent] = useState([]);
+  const [trash, setTrash] = useState([]);
+  const [rename, setRename] = useState(false);
+  const [session, setSession] = useState("boot");
+  const [user, setUser] = useState("Tin");
+  const [powerAction, setPowerAction] = useState(null);
+  const [welcome, setWelcome] = useState(false);
+  const [quickLook, setQuickLook] = useState(null);
+  const [infoFile, setInfoFile] = useState(initialFiles[0]);
+  const [tagPicker, setTagPicker] = useState(false);
+  const [widgets, setWidgets] = useState(() =>
+    preference("macos-demo-widgets", []),
+  );
+  const [widgetGallery, setWidgetGallery] = useState(false);
+  const [stageManager, setStageManager] = useState(false);
+  const [spaces, setSpaces] = useState([1]);
+  const [activeSpace, setActiveSpace] = useState(1);
+  const [forceQuit, setForceQuit] = useState(false);
+  const [switcher, setSwitcher] = useState(false);
+  const [switchIndex, setSwitchIndex] = useState(0);
+  const [launchAnimation, setLaunchAnimation] = useState(null);
+  const [showingDesktop, setShowingDesktop] = useState(false);
+  const [notifications, setNotifications] = useState([
+    {
+      id: "tips",
+      app: "tips",
+      title: "Make yourself at home",
+      copy: "A few little things to make the most of your Mac.",
+    },
+    {
+      id: "reminder",
+      app: "reminders",
+      title: "A little time outside",
+      copy: "A walk, a coffee, a different perspective.",
+    },
+  ]);
+  const entered = useRef(false);
+  const desktopRestore = useRef({});
+  const systemTimer = useRef(null);
+  const drag = useRef(null);
+  const topZ = useRef(5);
+  const toastTimer = useRef(null);
+  const announce = (text) => {
+    setToast(text);
+    clearTimeout(toastTimer.current);
+    toastTimer.current = setTimeout(() => setToast(""), 2500);
+  };
+  const focusWindow = (id) => {
+    setActiveSpace(windows.find((w) => w.id === id)?.space || 1);
+    setActive(id);
+    setWindows((old) =>
+      old.map((w) =>
+        w.id === id ? { ...w, z: ++topZ.current, minimized: false } : w,
+      ),
+    );
+  };
+  const openApp = (id) => {
+    setMission(false);
+    setSwitcher(false);
+    setShowingDesktop(false);
+    setWidgetGallery(false);
+    setLaunchAnimation(id);
+    setTimeout(() => setLaunchAnimation(null), 750);
+    if (id === "spotlight") {
+      setSpotlight(true);
+      setQuery("");
+      return;
+    }
+    setMenu(null);
+    setContext(null);
+    setPanel(null);
+    setSpotlight(false);
+    setLaunchpad(false);
+    setQuery("");
+    if (id === "apps") {
+      setLaunchpad(true);
+      return;
+    }
+    if (windows.some((w) => w.id === id)) {
+      focusWindow(id);
+      return;
+    }
+    const dimensions =
+      id === "calculator"
+        ? [330, 500]
+        : id === "terminal"
+          ? [800, 490]
+          : id === "info"
+            ? [350, 530]
+            : id === "weather"
+              ? [720, 710]
+              : id === "clock"
+                ? [720, 570]
+                : id === "tips"
+                  ? [850, 650]
+                  : id === "about"
+                    ? [370, 480]
+                    : id === "settings"
+                      ? [820, 590]
+                      : id === "preview"
+                        ? [800, 570]
+                        : id === "notes"
+                          ? [800, 550]
+                          : id === "music"
+                            ? [850, 540]
+                            : [900, 570];
+    const w = Math.min(dimensions[0], innerWidth - 50),
+      h = Math.min(dimensions[1], innerHeight - 145);
+    setWindows((old) => [
+      ...old,
+      {
+        id,
+        space: activeSpace,
+        x: Math.max(20, (innerWidth - w) / 2 + (old.length % 3) * 22),
+        y: Math.max(42, (innerHeight - h) / 2 - 25),
+        w,
+        h,
+        z: ++topZ.current,
+      },
+    ]);
+    setActive(id);
+  };
+  const closeWindow = (id) => {
+    const next = windows
+      .filter((w) => w.id !== id && !w.minimized)
+      .sort((a, b) => a.z - b.z)
+      .at(-1);
+    setWindows((old) => old.filter((w) => w.id !== id));
+    setActive(next?.id || "finder");
+  };
+  const minimize = (id) => {
+    setWindows((old) =>
+      old.map((w) => (w.id === id ? { ...w, minimized: true } : w)),
+    );
+    setActive(
+      windows
+        .filter((w) => w.id !== id && !w.minimized)
+        .sort((a, b) => a.z - b.z)
+        .at(-1)?.id || "finder",
+    );
+  };
+  const maximize = (id) =>
+    setWindows((old) =>
+      old.map((w) =>
+        w.id === id
+          ? w.maximized
+            ? { ...w, ...w.restore, maximized: false }
+            : {
+                ...w,
+                restore: { x: w.x, y: w.y, w: w.w, h: w.h },
+                x: 7,
+                y: 35,
+                w: innerWidth - 14,
+                h: innerHeight - 132,
+                maximized: true,
+              }
+          : w,
+      ),
+    );
+  const navigate = (dest) => {
+    setLocation(dest);
+    setHistory((h) => [...h, dest]);
+    setSelection(null);
+    setFileSearch("");
+  };
+  const openFile = (file) => {
+    if (file.folder) {
+      navigate(file.name);
+      return;
+    }
+    if (file.app) {
+      openApp(file.app);
+      return;
+    }
+    if (file.photo !== undefined) {
+      setPreview(file);
+      openApp("preview");
+      return;
+    }
+    openApp("textedit");
+  };
+  const newFolder = () => {
+    const name = files.some((f) => f.name === "untitled folder")
+      ? "untitled folder 2"
+      : "untitled folder";
+    setFiles((f) => [...f, { name, folder: true, date: "Today" }]);
+    setSelection(name);
+    setMenu(null);
+    announce("Folder created");
+  };
+  const trashSelection = () => {
+    const file = files.find((f) => f.name === selection);
+    if (file) {
+      setTrash((t) => [...t, file]);
+      setFiles((f) => f.filter((x) => x.name !== selection));
+      setSelection(null);
+      announce("Moved to Trash");
+    }
+    setMenu(null);
+  };
+  useEffect(() => {
+    const id = setInterval(() => setClock(clockFormat()), 10000);
+    return () => clearInterval(id);
+  }, []);
+  const clearSystemOverlays = () => {
+    setMenu(null);
+    setPanel(null);
+    setSpotlight(false);
+    setLaunchpad(false);
+    setMission(false);
+    setSwitcher(false);
+    setContext(null);
+    setWidgetGallery(false);
+    setQuickLook(null);
+    setTagPicker(false);
+    setForceQuit(false);
+    setWelcome(false);
+  };
+  const lockMac = () => {
+    clearSystemOverlays();
+    setSession("locked");
+  };
+  const requestPower = (action) => {
+    clearSystemOverlays();
+    if (action === "start") {
+      setSession("boot");
+      return;
+    }
+    if (action === "sleep") {
+      setSession("sleep");
+      return;
+    }
+    setPowerAction(action);
+  };
+  const confirmPower = (action, reopen) => {
+    setPowerAction(null);
+    clearSystemOverlays();
+    if (!reopen) setWindows([]);
+    if (action === "restart") setSession("boot");
+    else if (action === "logout") setSession("login");
+    else setSession("off");
+  };
+  const enterDesktop = () => {
+    if (session === "unlocking") return;
+    setSession("unlocking");
+    clearTimeout(systemTimer.current);
+    systemTimer.current = setTimeout(() => {
+      setSession("desktop");
+      if (!entered.current) {
+        setWelcome(true);
+        entered.current = true;
+      }
+    }, 820);
+  };
+  const showDesktop = () => {
+    setPanel(null);
+    setMenu(null);
+    if (!showingDesktop) {
+      desktopRestore.current = Object.fromEntries(
+        windows.map((w) => [w.id, !!w.minimized]),
+      );
+      setWindows((old) => old.map((w) => ({ ...w, minimized: true })));
+      setShowingDesktop(true);
+      setActive("finder");
+    } else {
+      setWindows((old) =>
+        old.map((w) => ({
+          ...w,
+          minimized: desktopRestore.current[w.id] || false,
+        })),
+      );
+      setShowingDesktop(false);
+    }
+  };
+  const quickLookSelected = () => {
+    const f = files.find((f) => f.name === selection);
+    if (f) setQuickLook(f);
+  };
+  const changeQuickLook = (direction) => {
+    const index = files.findIndex((f) => f.name === quickLook?.name);
+    setQuickLook(files[(index + direction + files.length) % files.length]);
+  };
+  const showInfo = (file) => {
+    setInfoFile(file);
+    openApp("info");
+  };
+  const tagFile = (color) => {
+    if (!selection) {
+      setTagPicker(false);
+      announce("Select a file to add a tag");
+      return;
+    }
+    setFiles((old) =>
+      old.map((f) =>
+        f.name === selection
+          ? {
+              ...f,
+              tags: f.tags?.includes(color)
+                ? f.tags.filter((t) => t !== color)
+                : [...(f.tags || []), color],
+            }
+          : f,
+      ),
+    );
+  };
+  useEffect(() => {
+    if (session !== "boot") return;
+    const timer = setTimeout(() => setSession("login"), 1250);
+    return () => clearTimeout(timer);
+  }, [session]);
+  useEffect(() => {
+    if (!welcome) return;
+    const timer = setTimeout(() => setWelcome(false), 7000);
+    return () => clearTimeout(timer);
+  }, [welcome]);
+  useEffect(() => {
+    try {
+      localStorage.setItem("macos-demo-note", JSON.stringify(note));
+    } catch {}
+  }, [note]);
+  useEffect(() => {
+    try {
+      localStorage.setItem("macos-demo-light", JSON.stringify(light));
+    } catch {}
+  }, [light]);
+  useEffect(() => {
+    try {
+      localStorage.setItem("macos-demo-widgets", JSON.stringify(widgets));
+    } catch {}
+  }, [widgets]);
+  useEffect(() => () => clearTimeout(systemTimer.current), []);
+  useEffect(() => {
+    const resize = () =>
+      setWindows((old) =>
+        old.map((w) => ({
+          ...w,
+          x: Math.min(w.x, Math.max(12, innerWidth - 220)),
+          y: Math.min(w.y, Math.max(34, innerHeight - 180)),
+          w: Math.min(w.w, innerWidth - 24),
+          h: Math.min(w.h, innerHeight - 125),
+        })),
+      );
+    window.addEventListener("resize", resize);
+    return () => window.removeEventListener("resize", resize);
+  }, []);
+
+  useEffect(() => {
+    const move = (e) => {
+      if (!drag.current) return;
+      const d = drag.current;
+      setWindows((old) =>
+        old.map((w) =>
+          w.id === d.id
+            ? {
+                ...w,
+                x: Math.max(
+                  -w.w + 100,
+                  Math.min(innerWidth - 100, d.x + e.clientX - d.mx),
+                ),
+                y: Math.max(
+                  30,
+                  Math.min(innerHeight - 110, d.y + e.clientY - d.my),
+                ),
+              }
+            : w,
+        ),
+      );
+    };
+    const stop = () => {
+      drag.current = null;
+      document.body.classList.remove("dragging");
+    };
+    window.addEventListener("pointermove", move);
+    window.addEventListener("pointerup", stop);
+    return () => {
+      window.removeEventListener("pointermove", move);
+      window.removeEventListener("pointerup", stop);
+    };
+  }, []);
+  useEffect(() => {
+    const key = (e) => {
+      if (session !== "desktop" || powerAction) return;
+      if (quickLook) return;
+      if (e.metaKey && e.ctrlKey && e.key.toLowerCase() === "q") {
+        e.preventDefault();
+        lockMac();
+        return;
+      }
+      if (e.metaKey && e.shiftKey && e.key.toLowerCase() === "q") {
+        e.preventDefault();
+        requestPower("logout");
+        return;
+      }
+      if (e.metaKey && e.altKey && e.key === "Escape") {
+        e.preventDefault();
+        setForceQuit(true);
+        return;
+      }
+      if (e.key === "F11") {
+        e.preventDefault();
+        showDesktop();
+        return;
+      }
+      if ((e.metaKey || e.altKey) && e.key === "Tab") {
+        e.preventDefault();
+        setSwitcher(true);
+        setSwitchIndex(
+          (i) =>
+            (i + 1) %
+            Math.max(
+              1,
+              windows.filter((w) => allApps.some((a) => a[0] === w.id)).length,
+            ),
+        );
+        return;
+      }
+      if (
+        switcher &&
+        ["ArrowRight", "ArrowLeft", "Enter", "Escape"].includes(e.key)
+      ) {
+        e.preventDefault();
+        const list = windows.filter((w) => allApps.some((a) => a[0] === w.id));
+        if (e.key === "Enter") {
+          const app = list[switchIndex % Math.max(1, list.length)];
+          if (app) focusWindow(app.id);
+          setSwitcher(false);
+        } else if (e.key === "Escape") setSwitcher(false);
+        else
+          setSwitchIndex(
+            (i) =>
+              (i +
+                (e.key === "ArrowRight" ? 1 : -1) +
+                Math.max(1, list.length)) %
+              Math.max(1, list.length),
+          );
+        return;
+      }
+      if (
+        e.code === "Space" &&
+        active === "finder" &&
+        !e.metaKey &&
+        !e.ctrlKey &&
+        !e.altKey &&
+        selection &&
+        !e.target.matches("input,textarea")
+      ) {
+        e.preventDefault();
+        quickLookSelected();
+        return;
+      }
+      if (
+        (e.metaKey || e.ctrlKey) &&
+        e.key.toLowerCase() === "i" &&
+        selection
+      ) {
+        e.preventDefault();
+        showInfo(files.find((f) => f.name === selection));
+        return;
+      }
+      if (e.key === "Escape") {
+        setSpotlight(false);
+        setLaunchpad(false);
+        setMission(false);
+        setMenu(null);
+        setPanel(null);
+        setContext(null);
+        setWidgetGallery(false);
+        setTagPicker(false);
+        setSwitcher(false);
+      }
+      if (
+        ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") ||
+        ((e.metaKey || e.ctrlKey) && e.code === "Space")
+      ) {
+        e.preventDefault();
+        setSpotlight((s) => !s);
+        setPanel(null);
+        setQuery("");
+      }
+      if ((e.metaKey || e.ctrlKey) && e.key === "w") {
+        e.preventDefault();
+        closeWindow(active);
+      }
+      if ((e.metaKey || e.ctrlKey) && e.key === "m") {
+        e.preventDefault();
+        minimize(active);
+      }
+      if (e.key === "F3") {
+        e.preventDefault();
+        setMission((s) => !s);
+      }
+      if (
+        (e.metaKey || e.ctrlKey) &&
+        e.shiftKey &&
+        e.key.toLowerCase() === "n"
+      ) {
+        e.preventDefault();
+        newFolder();
+      }
+      if (e.key === "Backspace" && e.metaKey && selection && active === "finder") {
+        e.preventDefault();
+        trashSelection();
+      }
+    };
+    window.addEventListener("keydown", key);
+    return () => window.removeEventListener("keydown", key);
+  }, [
+    active,
+    selection,
+    files,
+    session,
+    quickLook,
+    powerAction,
+    windows,
+    showingDesktop,
+    switcher,
+    switchIndex,
+  ]);
+  useEffect(() => {
+    if (!switcher) return;
+    const release = (e) => {
+      if (e.key === "Meta" || e.key === "Alt") {
+        const app = windows.filter((w) => allApps.some((a) => a[0] === w.id))[
+          switchIndex
+        ];
+        if (app) focusWindow(app.id);
+        setSwitcher(false);
+      }
+    };
+    window.addEventListener("keyup", release);
+    return () => window.removeEventListener("keyup", release);
+  }, [switcher, switchIndex, windows]);
+  const startDrag = (e, w) => {
+    if (e.target.closest("button,input")) return;
+    e.preventDefault();
+    drag.current = { id: w.id, x: w.x, y: w.y, mx: e.clientX, my: e.clientY };
+    document.body.classList.add("dragging");
+    focusWindow(w.id);
+  };
+  const currentFiles =
+    location === "Applications"
+      ? allApps.map(([app, name]) => ({ app, name }))
+      : location === "Trash"
+        ? trash
+        : location === "Downloads"
+          ? files.filter((f) => f.photo !== undefined || f.text)
+          : tags.some((t) => t[0] === location)
+            ? files.filter((f) => f.tags?.includes(location))
+            : [
+                  "Recents",
+                  "Desktop",
+                  "Documents",
+                  "iCloud Drive",
+                  "Macintosh HD",
+                  "Shared",
+                  "Network",
+                ].includes(location)
+              ? files
+              : files.filter((f, i) => i % 3 === 0 && !f.folder);
+  const switchable = windows.filter((w) => allApps.some((a) => a[0] === w.id));
+  const dockApps = [
+    ...apps,
+    ...switchable
+      .filter((w) => !apps.some((a) => a[0] === w.id))
+      .map((w) => [w.id, appName(w.id)]),
+  ];
+  const filteredFiles = currentFiles.filter((f) =>
+    f.name.toLowerCase().includes(fileSearch.toLowerCase()),
+  );
+  const togglePanel = (p) => {
+    setPanel((old) => (old === p ? null : p));
+    setMenu(null);
+    setContext(null);
+  };
+  const menuItems = (label) =>
+    ({
+      Apple: [
+        ["About This Mac", () => openApp("about")],
+        ["System Settings…", () => openApp("settings")],
+        ["App Store…", () => openApp("appstore")],
+        null,
+        ["Force Quit…", () => setForceQuit(true), "⌥⌘⎋"],
+        null,
+        ["Sleep", () => requestPower("sleep")],
+        ["Restart…", () => requestPower("restart")],
+        ["Shut Down…", () => requestPower("shutdown")],
+        null,
+        ["Lock Screen", lockMac, "⌃⌘Q"],
+        [
+          "Log Out " + profiles[user].name + "…",
+          () => requestPower("logout"),
+          "⇧⌘Q",
+        ],
+      ],
+      Finder: [
+        ["About Finder", () => openApp("about")],
+        ["Settings…", () => openApp("settings"), "⌘,"],
+        null,
+        ["Hide Finder", () => minimize("finder"), "⌘H"],
+      ],
+      File: [
+        ["New Finder Window", () => openApp("finder"), "⌘N"],
+        ["New Folder", newFolder, "⇧⌘N"],
+        null,
+        [
+          "Open",
+          () => {
+            const f = files.find((f) => f.name === selection);
+            if (f) openFile(f);
+          },
+          "⌘O",
+        ],
+        ["Rename", () => setRename(true)],
+        ["Move to Trash", trashSelection, "⌘⌫"],
+        null,
+        ["Close Window", () => closeWindow(active), "⌘W"],
+      ],
+      Edit: [
+        ["Undo", () => announce("Nothing to undo"), "⌘Z"],
+        [
+          "Copy",
+          () =>
+            announce(
+              selection ? "Copied " + selection : "Select a file to copy",
+            ),
+          "⌘C",
+        ],
+        [
+          "Select All",
+          () => announce("Use the file list to select an item"),
+          "⌘A",
+        ],
+      ],
+      View: [
+        ["as Icons", () => setFileView("grid"), "⌘1"],
+        ["as List", () => setFileView("list"), "⌘2"],
+        ["as Columns", () => setFileView("columns"), "⌘3"],
+        null,
+        ["Show Desktop", showDesktop, "F11"],
+        ["Edit Widgets…", () => setWidgetGallery(true)],
+        ["Show All Windows", () => setMission(true), "F3"],
+      ],
+      Go: [
+        ...[
+          "Recents",
+          "Applications",
+          "Desktop",
+          "Documents",
+          "Downloads",
+          "iCloud Drive",
+          "Macintosh HD",
+        ].map((name) => [
+          name,
+          () => {
+            navigate(name);
+            openApp("finder");
+          },
+        ]),
+      ],
+      Window: [
+        [
+          "Switch Applications",
+          () => {
+            setSwitcher(true);
+            setSwitchIndex(0);
+          },
+          "⌘⇥",
+        ],
+        ["Mission Control", () => setMission(true), "F3"],
+        null,
+        ["Minimize", () => minimize(active), "⌘M"],
+        ["Zoom", () => maximize(active)],
+        null,
+        ...windows.map((w) => [appName(w.id), () => focusWindow(w.id)]),
+      ],
+      Help: [
+        [
+          "Search with Spotlight",
+          () => {
+            setSpotlight(true);
+            setQuery("");
+          },
+          "⌘K",
+        ],
+        ["Keyboard Shortcuts", () => openApp("tips")],
+        ["Tips", () => openApp("tips")],
+      ],
+    })[label] || [
+      ["About " + appName(active), () => openApp("about")],
+      ["Close Window", () => closeWindow(active), "⌘W"],
+    ];
+  const Traffic = ({ w }) => (
+    <div className="traffic">
+      <button
+        className="red"
+        aria-label={`Close ${appName(w.id)}`}
+        onClick={() => closeWindow(w.id)}
+      >
+        <Icon name="X" size={9} weight="bold" />
+      </button>
+      <button
+        className="yellow"
+        aria-label={`Minimize ${appName(w.id)}`}
+        onClick={() => minimize(w.id)}
+      >
+        <Icon name="Minus" size={9} weight="bold" />
+      </button>
+      <button
+        className="green"
+        aria-label={`Maximize ${appName(w.id)}`}
+        onClick={() => maximize(w.id)}
+      >
+        <Icon name="ArrowsOutSimple" size={8} weight="bold" />
+      </button>
+    </div>
+  );
+  const FileIcon = ({ file }) =>
+    file.photo !== undefined ? (
+      <img
+        className="file-photo"
+        src={`${import.meta.env.BASE_URL}assets/photos/${file.photo}.jpg`}
+        alt=""
+      />
+    ) : (
+      <img
+        className={`file-art ${file.folder ? "folder-art" : ""}`}
+        src={asset(file.app || (file.folder ? "folder" : "document"))}
+        alt=""
+      />
+    );
+  function Finder({ w }) {
+    return (
+      <>
+        <aside className="finder-sidebar">
+          <div className="sidebar-top" onPointerDown={(e) => startDrag(e, w)}>
+            <Traffic w={w} />
+          </div>
+          <div className="sidebar-scroll">
+            {sidebarGroups.map(([title, items]) => (
+              <section key={title}>
+                {title && <div className="sidebar-heading">{title}</div>}
+                {items.map(([icon, name]) => (
+                  <button
+                    key={name}
+                    className={`sidebar-row ${location === name ? "selected" : ""}`}
+                    onClick={() => navigate(name)}
+                  >
+                    <Icon name={icon} size={18} />
+                    <span>{name}</span>
+                  </button>
+                ))}
+              </section>
+            ))}
+            <section className="tags">
+              <div className="sidebar-heading">Tags</div>
+              {tags.map(([name, color]) => (
+                <button
+                  className={`sidebar-row ${location === name ? "selected" : ""}`}
+                  key={name}
+                  onClick={() => navigate(name)}
+                >
+                  <Icon name="Circle" weight="fill" size={14} color={color} />
+                  {name}
+                </button>
+              ))}
+              <button
+                className="sidebar-row"
+                onClick={() =>
+                  announce("Choose a color to browse tagged files")
+                }
+              >
+                <Icon name="CirclesThree" size={17} />
+                All Tags…
+              </button>
+            </section>
+          </div>
+        </aside>
+        <div className="finder-main">
+          <header
+            className="finder-toolbar"
+            onPointerDown={(e) => startDrag(e, w)}
+            onDoubleClick={() => maximize(w.id)}
+          >
+            <div className="capsule back-buttons">
+              <button
+                aria-label="Back"
+                disabled={history.length < 2}
+                onClick={() => {
+                  const h = history.slice(0, -1);
+                  setHistory(h);
+                  setLocation(h.at(-1) || "Recents");
+                }}
+              >
+                <Icon name="CaretLeft" />
+              </button>
+              <button aria-label="Forward" onClick={() => navigate("Recents")}>
+                <Icon name="CaretRight" />
+              </button>
+            </div>
+            <strong>{location}</strong>
+            <div className="toolbar-right">
+              <div className="capsule view-buttons">
+                {[
+                  ["SquaresFour", "grid"],
+                  ["List", "list"],
+                  ["Columns", "columns"],
+                ].map(([icon, type]) => (
+                  <button
+                    aria-label={`${type} view`}
+                    className={fileView === type ? "chosen" : ""}
+                    key={type}
+                    onClick={() => setFileView(type)}
+                  >
+                    <Icon name={icon} size={19} />
+                  </button>
+                ))}
+              </div>
+              <button
+                className="capsule tool-button share"
+                aria-label="Share selected file"
+                onClick={() =>
+                  announce(
+                    selection
+                      ? "Ready to share " + selection
+                      : "Select a file to share",
+                  )
+                }
+              >
+                <Icon name="ShareNetwork" />
+              </button>
+              <button
+                className="capsule tool-button tag"
+                aria-label="Tags"
+                onClick={() => setTagPicker(!tagPicker)}
+              >
+                <Icon name="Tag" />
+              </button>
+              <button
+                className="capsule tool-button"
+                aria-label="Finder actions"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setMenu(menu === "File" ? null : "File");
+                }}
+              >
+                <Icon name="DotsThree" size={22} />
+              </button>
+              <button
+                className="capsule tool-button"
+                aria-label="Search Finder"
+                onClick={() => setShowSearch(!showSearch)}
+              >
+                <Icon name="MagnifyingGlass" />
+              </button>
+            </div>
+          </header>
+          {showSearch && (
+            <div className="finder-search">
+              <Icon name="MagnifyingGlass" size={16} />
+              <input
+                autoFocus
+                aria-label="Search files"
+                placeholder="Search"
+                value={fileSearch}
+                onChange={(e) => setFileSearch(e.target.value)}
+              />
+              <button
+                aria-label="Close search"
+                onClick={() => {
+                  setShowSearch(false);
+                  setFileSearch("");
+                }}
+              >
+                <Icon name="X" size={15} />
+              </button>
+            </div>
+          )}
+          <div
+            className={`file-area ${fileView}`}
+            onClick={(e) => {
+              if (e.target === e.currentTarget) setSelection(null);
+            }}
+            onContextMenu={(e) => {
+              e.preventDefault();
+              setContext({ x: e.clientX, y: e.clientY, type: "finder" });
+            }}
+          >
+            {fileView === "columns" ? (
+              <>
+                <div className="column-folders">
+                  {[
+                    "Recents",
+                    "Applications",
+                    "Desktop",
+                    "Documents",
+                    "Downloads",
+                  ].map((name) => (
+                    <button
+                      className={name === location ? "selected" : ""}
+                      key={name}
+                      onClick={() => navigate(name)}
+                    >
+                      <img src={asset("folder")} alt="" />
+                      {name}
+                      <Icon name="CaretRight" size={11} />
+                    </button>
+                  ))}
+                </div>
+                <div className="column-items">
+                  {filteredFiles.map((file) => (
+                    <button
+                      key={file.name}
+                      className={`file-item ${selection === file.name ? "selected" : ""}`}
+                      onClick={() => setSelection(file.name)}
+                      onDoubleClick={() => openFile(file)}
+                    >
+                      <FileIcon file={file} />
+                      <span className="file-name">{file.name}</span>
+                    </button>
+                  ))}
+                </div>
+                <div className="column-preview">
+                  {selection &&
+                  filteredFiles.find((f) => f.name === selection) ? (
+                    <>
+                      <FileIcon
+                        file={filteredFiles.find((f) => f.name === selection)}
+                      />
+                      <h3>{selection}</h3>
+                      <p>
+                        {filteredFiles.find((f) => f.name === selection).kind ||
+                          "Folder"}
+                      </p>
+                      <button
+                        className="native-button"
+                        onClick={quickLookSelected}
+                      >
+                        Quick Look
+                      </button>
+                    </>
+                  ) : (
+                    <p className="column-empty">
+                      Select a file
+                      <br />
+                      to see a preview.
+                    </p>
+                  )}
+                </div>
+              </>
+            ) : (
+              <>
+                {fileView !== "grid" && (
+                  <div className="list-heading">
+                    <span>Name</span>
+                    <span>Date Modified</span>
+                    <span>Size</span>
+                  </div>
+                )}
+                {filteredFiles.map((file, i) => (
+                  <button
+                    key={file.name}
+                    className={`file-item ${selection === file.name ? "selected" : ""}`}
+                    onClick={() => setSelection(file.name)}
+                    onDoubleClick={() => openFile(file)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") openFile(file);
+                    }}
+                    onContextMenu={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setSelection(file.name);
+                      setContext({
+                        x: e.clientX,
+                        y: e.clientY,
+                        type: "file",
+                        file,
+                      });
+                    }}
+                  >
+                    <FileIcon file={file} />
+                    <span className="file-name">{file.name}</span>
+                    <span className="file-date">
+                      {file.date || "Application"}
+                    </span>
+                    {fileView !== "grid" && (
+                      <span className="file-size">{file.size || "—"}</span>
+                    )}
+                  </button>
+                ))}
+                {!filteredFiles.length && (
+                  <div className="empty-folder">
+                    <Icon name="FolderOpen" size={56} weight="thin" />
+                    <span>
+                      {fileSearch
+                        ? "No matching files"
+                        : "This folder is empty"}
+                    </span>
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+          <div className="finder-breadcrumb">
+            <button onClick={() => navigate("Macintosh HD")}>
+              Macintosh HD
+            </button>
+            <Icon name="CaretRight" size={9} />
+            <span>Users</span>
+            <Icon name="CaretRight" size={9} />
+            <span>{profiles[user].name}</span>
+            <Icon name="CaretRight" size={9} />
+            <button onClick={() => navigate(location)}>{location}</button>
+          </div>
+          <footer className="finder-status">
+            {filteredFiles.length} items{selection ? " · 1 selected" : ""}
+            <span>128.4 GB available</span>
+          </footer>
+        </div>
+      </>
+    );
+  }
+  function ControlCenter() {
+    return (
+      <div
+        className="control-center glass popover"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="control-top">
+          <div className="connectivity control-tile">
+            {[
+              ["WifiHigh", "Wi-Fi", wifi, setWifi, wifi ? "HomeNet" : "Off"],
+              [
+                "Bluetooth",
+                "Bluetooth",
+                bluetooth,
+                setBluetooth,
+                bluetooth ? "On" : "Off",
+              ],
+              [
+                "Broadcast",
+                "AirDrop",
+                airdrop,
+                setAirdrop,
+                airdrop ? "Contacts Only" : "Off",
+              ],
+            ].map(([icon, label, on, set, sub]) => (
+              <button
+                className="connectivity-row"
+                key={label}
+                onClick={() => set(!on)}
+              >
+                <span className={`round-icon ${on ? "blue" : ""}`}>
+                  <Icon name={icon} size={21} />
+                </span>
+                <span>
+                  <b>{label}</b>
+                  <small>{sub}</small>
+                </span>
+              </button>
+            ))}
+          </div>
+          <div className="control-other">
+            <button
+              className={`focus-tile control-tile ${focus ? "enabled" : ""}`}
+              onClick={() => setFocus(!focus)}
+            >
+              <span className="round-icon">
+                <Icon name="Moon" weight="fill" size={23} />
+              </span>
+              <span>
+                <b>Focus</b>
+                <small>{focus ? "Do Not Disturb" : "Off"}</small>
+              </span>
+              <Icon name="CaretRight" size={13} />
+            </button>
+            <div className="control-two">
+              <button
+                className="control-tile"
+                onClick={() => {
+                  setStageManager(!stageManager);
+                  setPanel(null);
+                  announce(
+                    stageManager ? "Stage Manager off" : "Stage Manager on",
+                  );
+                }}
+              >
+                <Icon name="SidebarSimple" size={26} />
+                <span>
+                  Stage
+                  <br />
+                  Manager
+                </span>
+              </button>
+              <button
+                className="control-tile"
+                onClick={() => announce("No displays available")}
+              >
+                <Icon name="Rectangle" size={26} />
+                <span>
+                  Screen
+                  <br />
+                  Mirroring
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div className="slider-tile control-tile">
+          <Icon name="Sun" size={25} />
+          <input
+            type="range"
+            aria-label="Display brightness"
+            min="0"
+            max="100"
+            value={brightness}
+            onChange={(e) => setBrightness(+e.target.value)}
+            style={{ "--value": brightness + "%" }}
+          />
+        </div>
+        <div className="volume-row">
+          <div className="slider-tile control-tile">
+            <Icon name={volume ? "SpeakerHigh" : "SpeakerSlash"} size={24} />
+            <input
+              type="range"
+              aria-label="Sound volume"
+              value={volume}
+              onChange={(e) => setVolume(+e.target.value)}
+              style={{ "--value": volume + "%" }}
+            />
+          </div>
+          <button
+            className="sound-output control-tile"
+            aria-label="Sound output"
+            onClick={() => announce("Sound output: MacBook Pro speakers")}
+          >
+            <Icon name="Airplay" size={24} />
+          </button>
+        </div>
+        <div className="media-tile control-tile">
+          <img
+            src={`${import.meta.env.BASE_URL}assets/photos/8.jpg`}
+            alt="Midnight City album artwork"
+          />
+          <div className="media-copy">
+            <b>Midnight City</b>
+            <small>M83</small>
+          </div>
+          <button
+            aria-label="Previous track"
+            onClick={() => announce("Midnight City · M83")}
+          >
+            <Icon name="SkipBack" weight="fill" size={20} />
+          </button>
+          <button
+            aria-label={playing ? "Pause music" : "Play music"}
+            onClick={() => setPlaying(!playing)}
+          >
+            <Icon name={playing ? "Pause" : "Play"} weight="fill" size={22} />
+          </button>
+          <button
+            aria-label="Next track"
+            onClick={() => announce("Next up: Wait · M83")}
+          >
+            <Icon name="SkipForward" weight="fill" size={20} />
+          </button>
+        </div>
+      </div>
+    );
+  }
+  function CalendarContent() {
+    const now = new Date();
+    const date = new Date(
+      now.getFullYear(),
+      now.getMonth() + calendarOffset,
+      1,
+    );
+    const count = new Date(
+      date.getFullYear(),
+      date.getMonth() + 1,
+      0,
+    ).getDate();
+    const offset = (date.getDay() + 6) % 7;
+    return (
+      <div className="calendar-content">
+        <header>
+          <h2>
+            {date.toLocaleDateString("en-US", {
+              month: "long",
+              year: "numeric",
+            })}
+          </h2>
+          <button
+            aria-label="Previous month"
+            onClick={() => setCalendarOffset((x) => x - 1)}
+          >
+            <Icon name="CaretLeft" />
+          </button>
+          <button onClick={() => setCalendarOffset(0)}>Today</button>
+          <button
+            aria-label="Next month"
+            onClick={() => setCalendarOffset((x) => x + 1)}
+          >
+            <Icon name="CaretRight" />
+          </button>
+        </header>
+        <div className="calendar-grid">
+          {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((d) => (
+            <span className="weekday" key={d}>
+              {d}
+            </span>
+          ))}
+          {Array.from({ length: offset }, (_, i) => (
+            <span key={"blank" + i} />
+          ))}
+          {Array.from({ length: count }, (_, i) => (
+            <button
+              key={i}
+              className={
+                i + 1 === now.getDate() && calendarOffset === 0 ? "today" : ""
+              }
+              onClick={() =>
+                announce(
+                  `No events on ${date.toLocaleDateString("en-US", { month: "long" })} ${i + 1}`,
+                )
+              }
+            >
+              {i + 1}
+            </button>
+          ))}
+        </div>
+      </div>
+    );
+  }
+  function Safari() {
+    return (
+      <div className="safari-content">
+        <form
+          className="safari-address"
+          onSubmit={(e) => {
+            e.preventDefault();
+            setBrowserPage(browserUrl);
+          }}
+        >
+          <Icon name="LockSimple" size={14} />
+          <input
+            aria-label="Safari address"
+            placeholder="Search or enter website name"
+            value={browserUrl}
+            onChange={(e) => setBrowserUrl(e.target.value)}
+          />
+          <button aria-label="Reload page">
+            <Icon name="ArrowClockwise" size={16} />
+          </button>
+        </form>
+        {browserPage ? (
+          <div className="browser-mock-page">
+            <Icon name="Globe" size={60} weight="thin" />
+            <h1>{browserPage.replace("https://", "").split("/")[0]}</h1>
+            <p>You're exploring a little corner of the web.</p>
+            <button
+              className="native-button"
+              onClick={() => {
+                setBrowserPage("");
+                setBrowserUrl("");
+              }}
+            >
+              Back to Start Page
+            </button>
+          </div>
+        ) : (
+          <div className="safari-start">
+            <h2>Favorites</h2>
+            <div className="favorite-grid">
+              {[
+                ["Apple", "AppleLogo"],
+                ["iCloud", "Cloud"],
+                ["Google", "GoogleLogo"],
+                ["YouTube", "YoutubeLogo"],
+                ["Wikipedia", "Globe"],
+                ["Spotify", "SpotifyLogo"],
+              ].map(([name, icon]) => (
+                <button
+                  key={name}
+                  onClick={() => {
+                    setBrowserUrl(name.toLowerCase() + ".com");
+                    setBrowserPage(name.toLowerCase() + ".com");
+                  }}
+                >
+                  <span>
+                    <Icon name={icon} weight="fill" size={34} />
+                  </span>
+                  {name}
+                </button>
+              ))}
+            </div>
+            <h2>Reading List</h2>
+            <div className="reading-grid">
+              {[
+                [6, "A guide to California’s best hikes", "outsideonline.com"],
+                [1, "The art of slowing down", "kinfolk.com"],
+              ].map(([i, title, url]) => (
+                <button
+                  onClick={() => {
+                    setBrowserUrl(url);
+                    setBrowserPage(url);
+                  }}
+                  key={i}
+                >
+                  <img
+                    src={`${import.meta.env.BASE_URL}assets/photos/${i}.jpg`}
+                    alt=""
+                  />
+                  <span>
+                    {title}
+                    <small>{url}</small>
+                  </span>
+                </button>
+              ))}
+            </div>
+            <p className="privacy-message">
+              <Icon name="ShieldCheck" size={18} />
+              Your privacy. Protected.
+            </p>
+          </div>
+        )}
+      </div>
+    );
+  }
+  function Settings() {
+    return (
+      <div className="settings-content">
+        <aside>
+          <div className="profile">
+            <img src={profiles[user].image} alt="" />
+            <div>
+              <b>{profiles[user].name}</b>
+              <small>Apple Account</small>
+            </div>
+          </div>
+          {[
+            "Wi-Fi",
+            "Bluetooth",
+            "General",
+            "Appearance",
+            "Desktop & Dock",
+            "Wallpaper",
+            "Sound",
+            "Lock Screen",
+            "Accessibility",
+          ].map((s, i) => (
+            <button
+              className={settingTab === s ? "selected" : ""}
+              key={s}
+              onClick={() => setSettingTab(s)}
+            >
+              <Icon
+                name={
+                  [
+                    "WifiHigh",
+                    "Bluetooth",
+                    "GearSix",
+                    "CircleHalf",
+                    "Desktop",
+                    "Image",
+                    "SpeakerHigh",
+                    "LockSimple",
+                    "Users",
+                  ][i]
+                }
+              />
+              {s}
+              <Icon name="CaretRight" size={13} />
+            </button>
+          ))}
+        </aside>
+        <article>
+          <h2>{settingTab}</h2>
+          {settingTab === "Appearance" ||
+          settingTab === "Wallpaper" ||
+          settingTab === "Desktop & Dock" ? (
+            <>
+              <div className="appearance-choices">
+                {[
+                  [false, "Dark"],
+                  [true, "Light"],
+                ].map(([isLight, name]) => (
+                  <button
+                    className={light === isLight ? "chosen" : ""}
+                    key={name}
+                    onClick={() => setLight(isLight)}
+                  >
+                    <img
+                      src={`${import.meta.env.BASE_URL}assets/wallpaper-${isLight ? "light" : "dark"}.png`}
+                      alt={`${name} appearance`}
+                    />
+                    <span>
+                      {name}
+                      {light === isLight && (
+                        <Icon name="CheckCircle" weight="fill" size={17} />
+                      )}
+                    </span>
+                  </button>
+                ))}
+              </div>
+              <div className="settings-group">
+                <label>
+                  Appearance<span>{light ? "Light" : "Dark"}</span>
+                </label>
+                <label>
+                  Accent color
+                  <span className="accent-swatches">
+                    {[
+                      "#0a84ff",
+                      "#b26aea",
+                      "#f15b9b",
+                      "#f24646",
+                      "#ff9f0a",
+                      "#ffd60a",
+                      "#30d158",
+                    ].map((color) => (
+                      <button
+                        key={color}
+                        style={{ background: color }}
+                        aria-label={`Accent ${color}`}
+                        onClick={() => {
+                          document.documentElement.style.setProperty(
+                            "--accent",
+                            color,
+                          );
+                          announce("Accent color updated");
+                        }}
+                      />
+                    ))}
+                  </span>
+                </label>
+                <label>
+                  Liquid Glass<span>Clear</span>
+                </label>
+                <label>
+                  Allow wallpaper tinting in windows
+                  <input type="checkbox" defaultChecked />
+                </label>
+              </div>
+            </>
+          ) : settingTab === "Wi-Fi" || settingTab === "Bluetooth" ? (
+            <div className="settings-group">
+              <label>
+                {settingTab}
+                <input
+                  aria-label={settingTab}
+                  type="checkbox"
+                  checked={settingTab === "Wi-Fi" ? wifi : bluetooth}
+                  onChange={(e) =>
+                    settingTab === "Wi-Fi"
+                      ? setWifi(e.target.checked)
+                      : setBluetooth(e.target.checked)
+                  }
+                />
+              </label>
+              <label>
+                {settingTab === "Wi-Fi" ? "HomeNet" : "Magic Keyboard"}
+                <span>Connected</span>
+              </label>
+            </div>
+          ) : settingTab === "Lock Screen" ? (
+            <>
+              <p className="settings-description">
+                Keep your Mac ready for you, and only you.
+              </p>
+              <div className="settings-group">
+                <label>
+                  Require password after display is turned off
+                  <span>Immediately</span>
+                </label>
+                <label>
+                  Show date and time on Lock Screen
+                  <input type="checkbox" defaultChecked />
+                </label>
+                <label>
+                  Show login window as<span>List of users</span>
+                </label>
+              </div>
+              <div className="settings-action-row">
+                <button className="native-button" onClick={lockMac}>
+                  Lock Screen Now
+                </button>
+                <button
+                  className="native-button"
+                  onClick={() => requestPower("logout")}
+                >
+                  Log Out…
+                </button>
+              </div>
+            </>
+          ) : settingTab === "Accessibility" ? (
+            <>
+              <p className="settings-description">
+                Make this desktop work for you.
+              </p>
+              <div className="settings-group">
+                <label>
+                  Reduce motion
+                  <input
+                    type="checkbox"
+                    onChange={(e) =>
+                      document.documentElement.classList.toggle(
+                        "reduced-motion",
+                        e.target.checked,
+                      )
+                    }
+                  />
+                </label>
+                <label>
+                  Increase contrast
+                  <input
+                    type="checkbox"
+                    onChange={(e) =>
+                      document.documentElement.classList.toggle(
+                        "high-contrast",
+                        e.target.checked,
+                      )
+                    }
+                  />
+                </label>
+              </div>
+            </>
+          ) : settingTab === "Sound" ? (
+            <div className="settings-group">
+              <label>
+                Output volume
+                <input
+                  aria-label="Output volume"
+                  type="range"
+                  value={volume}
+                  onChange={(e) => setVolume(+e.target.value)}
+                />
+              </label>
+            </div>
+          ) : (
+            <div className="about-settings">
+              <img src={asset("settings")} alt="" />
+              <h2>macOS Golden Gate</h2>
+              <p>Version 27.0.1</p>
+              <div className="settings-group">
+                <label>
+                  Chip<span>Apple M4 Pro</span>
+                </label>
+                <label>
+                  Memory<span>24 GB</span>
+                </label>
+                <label>
+                  Startup disk<span>Macintosh HD</span>
+                </label>
+              </div>
+            </div>
+          )}
+        </article>
+      </div>
+    );
+  }
+  function WindowContent({ w }) {
+    if (w.id === "finder") return Finder({ w });
+    return (
+      <>
+        <header
+          className="app-toolbar"
+          onPointerDown={(e) => startDrag(e, w)}
+          onDoubleClick={() => maximize(w.id)}
+        >
+          <Traffic w={w} />
+          <strong>{w.id === "preview" ? preview.name : appName(w.id)}</strong>
+          <div className="app-toolbar-actions">
+            {w.id === "notes" && (
+              <button
+                aria-label="New note"
+                onClick={() => setNote("Untitled\n\n")}
+              >
+                <Icon name="NotePencil" />
+              </button>
+            )}
+            {w.id === "preview" && (
+              <button
+                aria-label="Previous photo"
+                onClick={() => {
+                  const photos = initialFiles.filter(
+                    (f) => f.photo !== undefined,
+                  );
+                  setPreview(
+                    photos[
+                      (photos.findIndex((f) => f.name === preview.name) +
+                        photos.length -
+                        1) %
+                        photos.length
+                    ],
+                  );
+                }}
+              >
+                <Icon name="CaretLeft" />
+              </button>
+            )}
+            {w.id === "preview" && (
+              <button
+                aria-label="Next photo"
+                onClick={() => {
+                  const photos = initialFiles.filter(
+                    (f) => f.photo !== undefined,
+                  );
+                  setPreview(
+                    photos[
+                      (photos.findIndex((f) => f.name === preview.name) + 1) %
+                        photos.length
+                    ],
+                  );
+                }}
+              >
+                <Icon name="CaretRight" />
+              </button>
+            )}
+          </div>
+        </header>
+        {w.id === "calculator" ? (
+          <CalculatorApp
+            isActive={
+              active === "calculator" &&
+              !mission &&
+              !spotlight &&
+              !forceQuit &&
+              !powerAction &&
+              !quickLook &&
+              !switcher &&
+              session === "desktop"
+            }
+          />
+        ) : w.id === "terminal" ? (
+          <TerminalApp user={user} onOpen={openApp} onLock={lockMac} />
+        ) : w.id === "weather" ? (
+          <WeatherApp />
+        ) : w.id === "clock" ? (
+          <ClockApp />
+        ) : w.id === "tips" ? (
+          <TipsApp
+            onOpen={openApp}
+            onLock={lockMac}
+            onMission={() => setMission(true)}
+            onWidgets={() => setWidgetGallery(true)}
+          />
+        ) : w.id === "info" ? (
+          <div className="file-info-content">
+            <header>
+              <FileIcon file={infoFile} />
+              <div>
+                <h3>{infoFile.name}</h3>
+                <small>{infoFile.size || "Folder"}</small>
+              </div>
+            </header>
+            <details open>
+              <summary>General</summary>
+              <dl>
+                <dt>Kind:</dt>
+                <dd>{infoFile.kind || "Folder"}</dd>
+                <dt>Size:</dt>
+                <dd>{infoFile.size || "3 items"}</dd>
+                <dt>Where:</dt>
+                <dd>
+                  Macintosh HD › Users › {user} › {location}
+                </dd>
+                <dt>Modified:</dt>
+                <dd>{infoFile.date}</dd>
+              </dl>
+            </details>
+            <details open>
+              <summary>Name & Extension</summary>
+              <p>{infoFile.name}</p>
+            </details>
+            <details open>
+              <summary>Preview</summary>
+              {infoFile.photo !== undefined ? (
+                <img
+                  className="info-preview"
+                  src={`${import.meta.env.BASE_URL}assets/photos/${infoFile.photo}.jpg`}
+                  alt=""
+                />
+              ) : (
+                <FileIcon file={infoFile} />
+              )}
+            </details>
+            <details>
+              <summary>Sharing & Permissions</summary>
+              <p>{user}: Read & Write</p>
+            </details>
+          </div>
+        ) : w.id === "preview" ? (
+          <div className="preview-content">
+            <img
+              src={`${import.meta.env.BASE_URL}assets/photos/${preview.photo}.jpg`}
+              alt={preview.name}
+            />
+          </div>
+        ) : w.id === "safari" ? (
+          Safari()
+        ) : w.id === "settings" ? (
+          Settings()
+        ) : w.id === "notes" ? (
+          <div className="notes-content">
+            <aside>
+              <h3>iCloud</h3>
+              <button className="selected">
+                <Icon name="FolderSimple" />
+                All iCloud <small>3</small>
+              </button>
+              <button
+                onClick={() =>
+                  setNote("Ideas\n\nA place for the next great idea.")
+                }
+              >
+                <Icon name="FolderSimple" />
+                Ideas <small>1</small>
+              </button>
+              <button
+                onClick={() =>
+                  setNote(
+                    "Weekend\n\nA walk by the water.\nCoffee with friends.",
+                  )
+                }
+              >
+                <Icon name="FolderSimple" />
+                Personal <small>1</small>
+              </button>
+            </aside>
+            <div className="note-paper">
+              <small>October 16, 2026 at {clock}</small>
+              <textarea
+                aria-label="Note text"
+                value={note}
+                onChange={(e) => setNote(e.target.value)}
+                spellCheck={false}
+              />
+            </div>
+          </div>
+        ) : w.id === "textedit" ? (
+          <textarea
+            className="text-document"
+            aria-label="Text document"
+            defaultValue={
+              "A few things to remember\n\nMake something beautiful.\nEnjoy the process.\nSave a little time to explore.\n\nOctober 16, 2026"
+            }
+          />
+        ) : w.id === "calendar" ? (
+          CalendarContent()
+        ) : w.id === "photos" ? (
+          <div className="photos-content">
+            <header>
+              <h1>Library</h1>
+              <span>9 Photos</span>
+            </header>
+            <div className="photo-library">
+              {Array.from({ length: 9 }, (_, i) => (
+                <button
+                  key={i}
+                  onClick={() => {
+                    setPreview({
+                      name:
+                        [
+                          "Golden Gate Park",
+                          "Coffee Shop",
+                          "SF Skyline",
+                          "Autumn",
+                          "Leaves",
+                          "Ocean",
+                          "Mount Tamalpais",
+                          "Flowers",
+                          "City Lights",
+                        ][i] + ".jpg",
+                      photo: i,
+                    });
+                    openApp("preview");
+                  }}
+                >
+                  <img
+                    src={`${import.meta.env.BASE_URL}assets/photos/${i}.jpg`}
+                    alt={`Photo ${i + 1}`}
+                  />
+                </button>
+              ))}
+            </div>
+          </div>
+        ) : w.id === "music" || w.id === "podcasts" || w.id === "tv" ? (
+          <div className="music-content">
+            <aside>
+              <h3>Library</h3>
+              {["Recently Added", "Artists", "Albums", "Songs"].map((x) => (
+                <button key={x} onClick={() => announce(x + " selected")}>
+                  <Icon name="MusicNotes" />
+                  {x}
+                </button>
+              ))}
+            </aside>
+            <article>
+              <img
+                className="album"
+                src={`${import.meta.env.BASE_URL}assets/photos/8.jpg`}
+                alt="Midnight City"
+              />
+              <div>
+                <small>SONG</small>
+                <h1>Midnight City</h1>
+                <h3>M83</h3>
+                <p>Hurry Up, We’re Dreaming · 2011</p>
+                <button
+                  className="play-button"
+                  onClick={() => setPlaying(!playing)}
+                >
+                  <Icon name={playing ? "Pause" : "Play"} weight="fill" />
+                  {playing ? "Pause" : "Play"}
+                </button>
+              </div>
+            </article>
+            <div className="music-player">
+              <Icon name="MusicNotes" />
+              <span>Midnight City — M83</span>
+              <button
+                onClick={() => setPlaying(!playing)}
+                aria-label={playing ? "Pause" : "Play"}
+              >
+                <Icon name={playing ? "Pause" : "Play"} weight="fill" />
+              </button>
+              <input
+                aria-label="Track progress"
+                type="range"
+                defaultValue="28"
+              />
+            </div>
+          </div>
+        ) : w.id === "about" ? (
+          <div className="about-mac">
+            <Icon name="Laptop" size={105} weight="thin" />
+            <h1>MacBook Pro</h1>
+            <p>14-inch, 2026</p>
+            <dl>
+              <dt>Chip</dt>
+              <dd>Apple M4 Pro</dd>
+              <dt>Memory</dt>
+              <dd>24 GB</dd>
+              <dt>macOS</dt>
+              <dd>Golden Gate 27.0.1</dd>
+            </dl>
+            <button
+              className="native-button"
+              onClick={() => openApp("settings")}
+            >
+              More Info…
+            </button>
+            <small>macOS in your browser</small>
+          </div>
+        ) : w.id === "messages" || w.id === "mail" ? (
+          <div className="messages-content">
+            <aside>
+              <h2>{appName(w.id)}</h2>
+              {["Alex Morgan", "Jamie Chen", "Sam Taylor"].map((name, i) => (
+                <button key={name} onClick={() => announce(name + " selected")}>
+                  <span className="avatar">
+                    {name
+                      .split(" ")
+                      .map((n) => n[0])
+                      .join("")}
+                  </span>
+                  <span>
+                    <b>{name}</b>
+                    <small>
+                      {
+                        [
+                          "Hey! Ready for the weekend?",
+                          "That looks great, thank you!",
+                          "See you soon.",
+                        ][i]
+                      }
+                    </small>
+                  </span>
+                </button>
+              ))}
+            </aside>
+            <article>
+              <header>Alex Morgan</header>
+              <div className="conversation">
+                <span className="bubble incoming">
+                  Hey! Ready for the weekend?
+                </span>
+                <span className="bubble outgoing">
+                  Absolutely. Let’s get outside.
+                </span>
+                <span className="bubble incoming">Coffee and a walk?</span>
+                {sent.map((s, i) => (
+                  <span key={i} className="bubble outgoing">
+                    {s}
+                  </span>
+                ))}
+              </div>
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  if (message.trim()) {
+                    setSent((s) => [...s, message]);
+                    setMessage("");
+                  }
+                }}
+              >
+                <input
+                  aria-label="Message"
+                  placeholder="iMessage"
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                />
+                <button aria-label="Send mock message">
+                  <Icon name="ArrowUp" weight="bold" />
+                </button>
+              </form>
+            </article>
+          </div>
+        ) : w.id === "trash" ? (
+          <div className="trash-content">
+            {trash.length ? (
+              trash.map((f) => (
+                <button
+                  key={f.name}
+                  onDoubleClick={() => {
+                    setFiles((x) => [...x, f]);
+                    setTrash((x) => x.filter((t) => t.name !== f.name));
+                    announce("Restored " + f.name);
+                  }}
+                >
+                  <FileIcon file={f} />
+                  <span>{f.name}</span>
+                  <small>Double-click to put back</small>
+                </button>
+              ))
+            ) : (
+              <>
+                <img src={asset("trash")} alt="" />
+                <h2>Trash is empty</h2>
+                <p>Items you remove will appear here.</p>
+              </>
+            )}
+          </div>
+        ) : w.id === "reminders" ? (
+          <div className="reminders-content">
+            <h1>Today</h1>
+            {[
+              "Take a walk",
+              "Make something beautiful",
+              "Call a friend",
+              "Plan the weekend",
+            ].map((t) => (
+              <label key={t}>
+                <input type="checkbox" />
+                {t}
+              </label>
+            ))}
+            <button onClick={() => announce("All caught up for today")}>
+              <Icon name="Plus" />
+              New Reminder
+            </button>
+          </div>
+        ) : w.id === "maps" ? (
+          <div className="map-content">
+            <img
+              src={`${import.meta.env.BASE_URL}assets/photos/0.jpg`}
+              alt="Golden Gate Park"
+            />
+            <div className="map-place glass">
+              <h2>Golden Gate Park</h2>
+              <p>San Francisco, California</p>
+              <button
+                className="native-button"
+                onClick={() => announce("You have arrived. Enjoy the view.")}
+              >
+                Explore
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div className="appstore-content">
+            <img src={asset("appstore")} alt="" />
+            <h1>Discover something wonderful.</h1>
+            <p>Your next favorite app is waiting.</p>
+            <div>
+              {apps.slice(2, 7).map(([id, name]) => (
+                <button key={id} onClick={() => openApp(id)}>
+                  <img src={asset(id)} alt="" />
+                  {name}
+                  <span>Open</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+      </>
+    );
+  }
+  return (
+    <main
+      className={`desktop ${light ? "light" : ""} ${mission ? "mission-mode" : ""} ${session === "desktop" ? "session-ready" : session === "unlocking" ? "session-opening" : "session-hidden"}`}
+      style={{ "--brightness": brightness / 100 }}
+      onClick={(e) => {
+        setMenu(null);
+        setContext(null);
+        if (
+          !e.target.closest(
+            ".menu-bar,.popover,.status-popover,.notification-center,.lock-screen",
+          )
+        )
+          setPanel(null);
+      }}
+      onContextMenu={(e) => {
+        if (
+          e.target === e.currentTarget ||
+          e.target.classList.contains("desktop-session")
+        ) {
+          e.preventDefault();
+          setContext({ x: e.clientX, y: e.clientY, type: "desktop" });
+        }
+      }}
+    >
+      <div className="wallpaper" />
+      <div
+        className="screen-dim"
+        style={{ opacity: Math.max(0, (48 - brightness) / 80) }}
+      />
+      <div
+        className="desktop-session"
+        inert={session !== "desktop" ? true : undefined}
+      >
+        <nav className="menu-bar" aria-label="Menu bar">
+          <div className="menu-left">
+            {[
+              "Apple",
+              active === "finder" ? "Finder" : appName(active),
+              "File",
+              "Edit",
+              "View",
+              ...(active === "finder" ? ["Go"] : []),
+              "Window",
+              "Help",
+            ].map((label, i) => (
+              <button
+                key={i}
+                className={`${menu === label ? "open" : ""} ${i === 1 ? "app-menu" : ""}`}
+                aria-label={label === "Apple" ? "Apple menu" : label + " menu"}
+                onMouseEnter={() => {
+                  if (menu) setMenu(label);
+                }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setMenu(menu === label ? null : label);
+                  setPanel(null);
+                }}
+              >
+                {label === "Apple" ? (
+                  <Icon name="AppleLogo" weight="fill" size={19} />
+                ) : (
+                  label
+                )}
+              </button>
+            ))}
+          </div>
+          <div className="menu-right">
+            {focus && <Icon name="Moon" weight="fill" size={15} />}
+            <button
+              aria-label="Wi-Fi status"
+              onClick={() => togglePanel("wifi")}
+            >
+              <Icon name={wifi ? "WifiHigh" : "WifiSlash"} size={20} />
+            </button>
+            <button
+              className="menu-battery"
+              aria-label="Battery 100 percent"
+              onClick={() => togglePanel("battery")}
+            >
+              <Icon name="BatteryFull" size={24} />
+            </button>
+            <button
+              aria-label="Spotlight"
+              onClick={() => {
+                setSpotlight(true);
+                setQuery("");
+                setPanel(null);
+              }}
+            >
+              <Icon name="MagnifyingGlass" size={19} />
+            </button>
+            <button
+              aria-label="Control Center"
+              className={panel === "control" ? "open" : ""}
+              onClick={() => togglePanel("control")}
+            >
+              <Icon name="SlidersHorizontal" size={22} />
+            </button>
+            <button
+              className="menu-date"
+              aria-label="Date and notifications"
+              onClick={() => togglePanel("notifications")}
+            >
+              {dateFormat()} <span>{clock}</span>
+            </button>
+          </div>
+        </nav>
+        {menu && (
+          <div
+            className="menu-dropdown glass"
+            style={{
+              left:
+                menu === "Apple"
+                  ? 9
+                  : menu === "File"
+                    ? 145
+                    : menu === "Edit"
+                      ? 188
+                      : menu === "View"
+                        ? 231
+                        : menu === "Go"
+                          ? 277
+                          : menu === "Window"
+                            ? 310
+                            : menu === "Help"
+                              ? 385
+                              : 48,
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {menuItems(menu).map((item, i) =>
+              item ? (
+                <button
+                  key={i}
+                  onClick={() => {
+                    setMenu(null);
+                    item[1]();
+                  }}
+                >
+                  <span>{item[0]}</span>
+                  <small>{item[2]}</small>
+                </button>
+              ) : (
+                <hr key={i} />
+              ),
+            )}
+          </div>
+        )}
+        <div className="desktop-files">
+          {["Projects", "Reference"].map((name) => (
+            <button
+              className={selection === name ? "selected" : ""}
+              key={name}
+              onClick={() => setSelection(name)}
+              onDoubleClick={() => {
+                navigate(name);
+                openApp("finder");
+              }}
+            >
+              <img src={asset("folder")} alt="" />
+              <span>{name}</span>
+            </button>
+          ))}
+        </div>
+        <DesktopWidgets
+          widgets={widgets}
+          onOpen={openApp}
+          onRemove={(type) => setWidgets((w) => w.filter((x) => x !== type))}
+        />
+        {stageManager && (
+          <div className="stage-stack">
+            {windows
+              .filter((w) => w.id !== active && (w.space || 1) === activeSpace)
+              .map((w) => (
+                <button key={w.id} onClick={() => focusWindow(w.id)}>
+                  <img
+                    src={asset(
+                      allApps.some((a) => a[0] === w.id) ? w.id : "finder",
+                    )}
+                    alt=""
+                  />
+                  <span>{appName(w.id)}</span>
+                </button>
+              ))}
+          </div>
+        )}
+        {windows
+          .filter((w) => !w.minimized && (w.space || 1) === activeSpace)
+          .map((w) => (
+            <section
+              key={w.id}
+              inert={Boolean(
+                mission || switcher || forceQuit || quickLook || powerAction,
+              )}
+              data-app={w.id}
+              className={`os-window ${w.id === "finder" ? "finder-window" : ""} ${w.id === "about" ? "about-window" : ""} ${active === w.id ? "active" : "inactive"}`}
+              aria-label={`${appName(w.id)} window`}
+              style={{
+                left: w.x,
+                top: w.y,
+                width: w.w,
+                height: w.h,
+                zIndex: w.z,
+              }}
+              onPointerDown={() => {
+                setPanel(null);
+                if (active !== w.id) focusWindow(w.id);
+              }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {
+                <AppBoundary title={appName(w.id)}>
+                  {WindowContent({ w })}
+                </AppBoundary>
+              }
+              <div
+                className="resize-handle"
+                onPointerDown={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  const sx = e.clientX,
+                    sy = e.clientY,
+                    sw = w.w,
+                    sh = w.h;
+                  const move = (ev) =>
+                    setWindows((old) =>
+                      old.map((x) =>
+                        x.id === w.id
+                          ? {
+                              ...x,
+                              w: Math.max(370, sw + ev.clientX - sx),
+                              h: Math.max(260, sh + ev.clientY - sy),
+                            }
+                          : x,
+                      ),
+                    );
+                  const stop = () => {
+                    window.removeEventListener("pointermove", move);
+                    window.removeEventListener("pointerup", stop);
+                  };
+                  window.addEventListener("pointermove", move);
+                  window.addEventListener("pointerup", stop);
+                }}
+              />
+            </section>
+          ))}
+        {mission && (
+          <MissionControl
+            windows={windows}
+            renderWindow={(w) => WindowContent({ w })}
+            apps={allApps}
+            spaces={spaces}
+            space={activeSpace}
+            onSpace={setActiveSpace}
+            onAdd={() => {
+              const next = Math.max(...spaces) + 1;
+              setSpaces([...spaces, next]);
+              setActiveSpace(next);
+            }}
+            onSelect={(id) => {
+              focusWindow(id);
+              setMission(false);
+            }}
+            onClose={() => setMission(false)}
+          />
+        )}
+        {switcher && (
+          <AppSwitcher
+            apps={switchable.map((w) => [w.id, appName(w.id)])}
+            selected={switchIndex}
+            onSelect={(id) => {
+              focusWindow(id);
+              setSwitcher(false);
+            }}
+            onClose={() => setSwitcher(false)}
+          />
+        )}
+        {panel === "control" && ControlCenter()}
+        {panel === "wifi" && (
+          <div className="status-popover glass">
+            <header>
+              <b>Wi-Fi</b>
+              <input
+                aria-label="Wi-Fi enabled"
+                type="checkbox"
+                checked={wifi}
+                onChange={(e) => setWifi(e.target.checked)}
+              />
+            </header>
+            <hr />
+            <small>Known Network</small>
+            <button onClick={() => setWifi(!wifi)}>
+              <span className="round-icon blue">
+                <Icon name="WifiHigh" />
+              </span>
+              <span>
+                HomeNet<small>{wifi ? "Connected" : "Not connected"}</small>
+              </span>
+              {wifi && <Icon name="Check" />}
+            </button>
+            <button
+              className="popover-settings"
+              onClick={() => {
+                setSettingTab("Wi-Fi");
+                openApp("settings");
+                setPanel(null);
+              }}
+            >
+              Wi-Fi Settings…
+            </button>
+          </div>
+        )}
+        {panel === "battery" && (
+          <div className="status-popover glass">
+            <header>
+              <b>Battery</b>
+              <span>100%</span>
+            </header>
+            <p>Power Source: Power Adapter</p>
+            <small>Battery is fully charged</small>
+            <button
+              className="popover-settings"
+              onClick={() => {
+                openApp("settings");
+                setPanel(null);
+              }}
+            >
+              Battery Settings…
+            </button>
+          </div>
+        )}
+        {panel === "notifications" && (
+          <div className="notification-center glass">
+            <div className="notification-date">
+              {new Date().toLocaleDateString("en-US", {
+                weekday: "long",
+                month: "long",
+                day: "numeric",
+              })}
+            </div>
+            <div className="notification-weather">
+              <div>
+                <b>San Francisco</b>
+                <strong>18°</strong>
+                <small>Clear · H:21° L:14°</small>
+              </div>
+              <Icon name="Sun" weight="fill" size={59} color="#ffd660" />
+            </div>
+            {CalendarContent()}
+            <div className="notification-heading">
+              <b>Notifications</b>
+              {notifications.length > 0 && (
+                <button onClick={() => setNotifications([])}>Clear All</button>
+              )}
+            </div>
+            {notifications.length ? (
+              notifications.map((n) => (
+                <div className="notification-item" key={n.id}>
+                  <img src={asset(n.app)} alt="" />
+                  <div>
+                    <b>{n.title}</b>
+                    <p>{n.copy}</p>
+                  </div>
+                  <button
+                    aria-label={`Dismiss ${n.title}`}
+                    onClick={() =>
+                      setNotifications((old) =>
+                        old.filter((x) => x.id !== n.id),
+                      )
+                    }
+                  >
+                    <Icon name="X" size={11} />
+                  </button>
+                </div>
+              ))
+            ) : (
+              <p>No new notifications</p>
+            )}
+          </div>
+        )}
+
+        <div className="dock-wrap">
+          <div className="dock glass" aria-label="Dock">
+            {dockApps.map(([id, label]) => (
+              <button
+                key={id}
+                aria-label={label}
+                className={`dock-item ${launchAnimation === id ? "bouncing" : ""} ${windows.some((w) => w.id === id) ? "running" : ""}`}
+                onContextMenu={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setContext({
+                    x: e.clientX,
+                    y: e.clientY,
+                    type: "dock",
+                    app: id,
+                  });
+                }}
+                onClick={() => openApp(id)}
+              >
+                <span className="dock-tooltip glass">{label}</span>
+                <img src={asset(id)} alt="" draggable="false" />
+              </button>
+            ))}
+            <span className="dock-divider" />
+            <button
+              className="dock-item"
+              aria-label="Trash"
+              onClick={() => openApp("trash")}
+            >
+              <span className="dock-tooltip glass">Trash</span>
+              <img src={asset("trash")} alt="" />
+            </button>
+          </div>
+        </div>
+        {spotlight && (
+          <div
+            className="spotlight-backdrop"
+            onClick={() => setSpotlight(false)}
+          >
+            <div
+              className="spotlight glass"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="spotlight-input">
+                <Icon name="MagnifyingGlass" size={28} />
+                <input
+                  autoFocus
+                  aria-label="Spotlight search"
+                  placeholder="Spotlight Search"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      const a = allApps.find(([id, name]) =>
+                        name.toLowerCase().includes(query.toLowerCase()),
+                      );
+                      if (a) openApp(a[0]);
+                      else {
+                        const f = files.find((f) =>
+                          f.name.toLowerCase().includes(query.toLowerCase()),
+                        );
+                        if (f) {
+                          openFile(f);
+                          setSpotlight(false);
+                        }
+                      }
+                    }
+                  }}
+                />
+                <span>esc</span>
+              </div>
+              {query && (
+                <div className="spotlight-results">
+                  <small>Applications</small>
+                  {allApps
+                    .filter(([id, name]) =>
+                      name.toLowerCase().includes(query.toLowerCase()),
+                    )
+                    .slice(0, 5)
+                    .map(([id, name]) => (
+                      <button key={id} onClick={() => openApp(id)}>
+                        <img src={asset(id)} alt="" />
+                        <span>{name}</span>
+                        <Icon name="ArrowElbowDownLeft" size={16} />
+                      </button>
+                    ))}
+                  {files
+                    .filter((f) =>
+                      f.name.toLowerCase().includes(query.toLowerCase()),
+                    )
+                    .slice(0, 4)
+                    .map((f) => (
+                      <button
+                        key={f.name}
+                        onClick={() => {
+                          openFile(f);
+                          setSpotlight(false);
+                        }}
+                      >
+                        <FileIcon file={f} />
+                        <span>{f.name}</span>
+                      </button>
+                    ))}
+                </div>
+              )}
+              <footer>
+                <span>Search your Mac</span>
+                <span>
+                  Open <Icon name="ArrowElbowDownLeft" size={12} />
+                </span>
+              </footer>
+            </div>
+          </div>
+        )}
+        {launchpad && (
+          <div className="launchpad" onClick={() => setLaunchpad(false)}>
+            <input
+              autoFocus
+              aria-label="Search applications"
+              placeholder="Search applications"
+              value={query}
+              onClick={(e) => e.stopPropagation()}
+              onChange={(e) => setQuery(e.target.value)}
+            />
+            <div className="launchpad-grid">
+              {allApps
+                .filter(
+                  ([id, name]) =>
+                    id !== "apps" &&
+                    name.toLowerCase().includes(query.toLowerCase()),
+                )
+                .map(([id, name]) => (
+                  <button
+                    key={id}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      openApp(id);
+                    }}
+                  >
+                    <img src={asset(id)} alt="" />
+                    {name}
+                  </button>
+                ))}
+            </div>
+            <button
+              className="launchpad-close"
+              onClick={() => setLaunchpad(false)}
+            >
+              Return to Desktop
+            </button>
+          </div>
+        )}
+        {context && (
+          <div
+            className="context-menu glass"
+            style={{
+              left: Math.min(context.x, innerWidth - 230),
+              top: Math.min(context.y, innerHeight - 260),
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {context.type === "dock" ? (
+              <>
+                <div className="dock-context-heading">
+                  <img src={asset(context.app)} alt="" />
+                  {appName(context.app)}
+                </div>
+                <hr />
+                <button
+                  onClick={() => {
+                    openApp(context.app);
+                    setContext(null);
+                  }}
+                >
+                  Open
+                </button>
+                <button
+                  onClick={() => {
+                    minimize(context.app);
+                    setContext(null);
+                  }}
+                >
+                  Hide
+                </button>
+                <hr />
+                <button
+                  onClick={() => {
+                    closeWindow(context.app);
+                    setContext(null);
+                  }}
+                >
+                  Quit
+                </button>
+              </>
+            ) : context.type === "file" ? (
+              <>
+                <button
+                  onClick={() => {
+                    openFile(context.file);
+                    setContext(null);
+                  }}
+                >
+                  Open
+                </button>
+                <button
+                  onClick={() => {
+                    setQuickLook(context.file);
+                    setContext(null);
+                  }}
+                >
+                  Quick Look
+                </button>
+                <button
+                  onClick={() => {
+                    setRename(true);
+                    setContext(null);
+                  }}
+                >
+                  Rename…
+                </button>
+                <button
+                  onClick={() => {
+                    trashSelection();
+                    setContext(null);
+                  }}
+                >
+                  Move to Trash
+                </button>
+                <hr />
+                <button
+                  onClick={() => {
+                    showInfo(context.file);
+                    setContext(null);
+                  }}
+                >
+                  Get Info
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  onClick={() => {
+                    newFolder();
+                    setContext(null);
+                  }}
+                >
+                  New Folder
+                </button>
+                <hr />
+                <button
+                  onClick={() => {
+                    setContext(null);
+                    setSettingTab("Wallpaper");
+                    openApp("settings");
+                  }}
+                >
+                  Change Wallpaper…
+                </button>
+                <button
+                  onClick={() => {
+                    setLight(!light);
+                    setContext(null);
+                  }}
+                >
+                  Use {light ? "Dark" : "Light"} Appearance
+                </button>
+                <hr />
+                <button
+                  onClick={() => {
+                    setContext(null);
+                    showDesktop();
+                  }}
+                >
+                  Show Desktop
+                </button>
+                <button
+                  onClick={() => {
+                    setContext(null);
+                    setWidgetGallery(true);
+                  }}
+                >
+                  Edit Widgets…
+                </button>
+                <button
+                  onClick={() => {
+                    setContext(null);
+                    setMission(true);
+                  }}
+                >
+                  Mission Control
+                </button>
+              </>
+            )}
+          </div>
+        )}
+        {rename && (
+          <div className="dialog-backdrop">
+            <form
+              className="rename-dialog glass"
+              onSubmit={(e) => {
+                e.preventDefault();
+                const name = new FormData(e.currentTarget).get("name");
+                setFiles((old) =>
+                  old.map((f) => (f.name === selection ? { ...f, name } : f)),
+                );
+                setSelection(name);
+                setRename(false);
+              }}
+            >
+              <h3>Rename</h3>
+              <input
+                aria-label="File name"
+                name="name"
+                autoFocus
+                defaultValue={selection || ""}
+              />
+              <div>
+                <button
+                  className="native-button"
+                  type="button"
+                  onClick={() => setRename(false)}
+                >
+                  Cancel
+                </button>
+                <button className="native-button primary">Rename</button>
+              </div>
+            </form>
+          </div>
+        )}
+        {toast && (
+          <div className="toast glass" role="status">
+            <Icon name="CheckCircle" size={18} />
+            {toast}
+          </div>
+        )}
+        {forceQuit && (
+          <ForceQuitDialog
+            apps={switchable.map((w) => [w.id, appName(w.id)])}
+            active={active}
+            onClose={() => setForceQuit(false)}
+            onQuit={(id) => {
+              if (id === "finder") {
+                setWindows((old) =>
+                  old.map((w) =>
+                    w.id === "finder"
+                      ? {
+                          ...w,
+                          minimized: false,
+                          x: innerWidth * 0.083,
+                          y: innerHeight * 0.145,
+                          w: Math.min(950, innerWidth * 0.638),
+                          h: Math.min(670, innerHeight * 0.634),
+                        }
+                      : w,
+                  ),
+                );
+                setLocation("Recents");
+                announce("Finder relaunched");
+              } else closeWindow(id);
+            }}
+          />
+        )}
+        {widgetGallery && (
+          <WidgetGallery
+            widgets={widgets}
+            onAdd={(type) => setWidgets((w) => [...w, type])}
+            onClose={() => setWidgetGallery(false)}
+          />
+        )}
+        {welcome && !panel && (
+          <WelcomeBanner
+            name={profiles[user].name}
+            onClose={() => setWelcome(false)}
+            onOpen={() => {
+              setWelcome(false);
+              openApp("tips");
+            }}
+          />
+        )}
+        {tagPicker && (
+          <div className="tag-picker glass">
+            <h3>Tags for {selection || "selected file"}</h3>
+            <div>
+              {tags.map(([name, color]) => (
+                <button
+                  style={{ background: color }}
+                  key={name}
+                  aria-label={`Tag ${name}`}
+                  onClick={() => tagFile(name)}
+                >
+                  {files
+                    .find((f) => f.name === selection)
+                    ?.tags?.includes(name) && <Icon name="Check" size={12} />}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+      {quickLook && (
+        <QuickLook
+          file={quickLook}
+          onClose={() => setQuickLook(null)}
+          onNext={() => changeQuickLook(1)}
+          onPrevious={() => changeQuickLook(-1)}
+        />
+      )}
+      <SystemScreen
+        phase={session}
+        clock={clock}
+        user={user}
+        light={light}
+        onUnlock={enterDesktop}
+        onWake={() => setSession("locked")}
+        onPower={requestPower}
+        onUser={setUser}
+      />
+      {powerAction && (
+        <PowerDialog
+          action={powerAction}
+          onCancel={() => setPowerAction(null)}
+          onConfirm={confirmPower}
+        />
+      )}
+    </main>
+  );
 }
